@@ -1429,7 +1429,11 @@ function selectSize(el,id,size,price){
 function renderCart(){
   const container=document.getElementById('cart-items-container'),sumRows=document.getElementById('summary-rows'),totalEl=document.getElementById('cart-total');
   if(cart.length===0){container.innerHTML=`<div class="empty-cart"><p class="empty-t">Your cart is empty</p><p class="empty-s">Browse the gallery and find a piece that speaks to you</p><button class="btn-gold" onclick="showPage('shop')" style="padding:14px 36px">Browse Paintings</button></div>`;sumRows.innerHTML='';totalEl.textContent='₹0';return}
-  container.innerHTML=`<div class="cart-items-list">${cart.map(item=>`<div class="c-item"><div class="c-item-img" style="position:relative"><div class="sk-layer"></div><img data-lazy="${item.img}" alt="${item.title}"/></div><div><p class="c-item-title">${item.title}</p><p class="c-item-meta">Size: ${item.size} · Qty: ${item.qty}</p><button class="remove-btn" onclick="removeFromCart('${item.key}')">Remove</button></div><div class="c-item-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div></div>`).join('')}</div>`;
+  container.innerHTML=`<div class="cart-items-list">${cart.map(item=>`<div class="c-item"><div class="c-item-img" style="position:relative"><div class="sk-layer"></div><img data-lazy="${item.img}" alt="${item.title}"/></div><div><p class="c-item-title">${item.title}</p><p class="c-item-meta">Size: ${item.size} · Qty: ${item.qty}</p><button class="remove-btn" data-key="${encodeURIComponent(item.key)}">Remove</button></div><div class="c-item-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div></div>`).join('')}</div>`;
+  // Use event delegation so remove buttons always work regardless of key contents
+  container.querySelectorAll('.remove-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>removeFromCart(decodeURIComponent(btn.dataset.key)));
+  });
   const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
   sumRows.innerHTML=cart.map(i=>`<div class="sum-row"><span>${i.title} ×${i.qty}</span><span>₹${(i.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('')+`<div class="sum-row"><span>Shipping</span><span>Free</span></div>`;
   totalEl.textContent=`₹${sub.toLocaleString('en-IN')}`;
