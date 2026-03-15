@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<!--
+=======================================================================
+  🎨 THE ABSTRACT CANVAS — CUSTOMIZABLE WEBSITE
+=======================================================================
+
+  HOW TO CUSTOMIZE THIS WEBSITE
+  ──────────────────────────────
+  Everything you need to change is inside the CONFIG object in the
+  <script> section near the bottom of this file. Search for:
+  
+    "YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE"
+  
+  In the CONFIG block you can change:
+  ✅ Brand name & logo (use your own logo image URL)
+  ✅ Hero text, tagline, subtitle
+  ✅ WhatsApp number
+  ✅ Instagram handle
+  ✅ Artist bio, quote, stats
+  ✅ Your paintings (title, photo, price, style, description)
+  ✅ Canvas size options & their prices
+  ✅ Footer text & copyright
+  ✅ All background & gallery images
+
+  HOW TO ADD YOUR OWN PAINTING PHOTOS
+  ─────────────────────────────────────
+  1. Go to https://imgur.com and upload your painting photo
+  2. Right-click the image → "Copy image address"
+  3. Paste the URL into the "img" field of a painting in CONFIG.paintings
+
+  HOW TO GET A DOMAIN
+  ────────────────────
+  1. Buy a domain at GoDaddy, Hostinger, or Namecheap (e.g. abstractcanvas.in)
+  2. Upload this single HTML file to any web host:
+     • Netlify (free): drag & drop at netlify.com/drop
+     • GitHub Pages (free): push to GitHub and enable Pages
+     • Hostinger / GoDaddy hosting: upload via File Manager
+  3. Link your domain in the hosting dashboard — done!
+
+  ADDING LOGO
+  ────────────
+  Set CONFIG.logoImg to your logo image URL.
+  Example: logoImg: "https://i.imgur.com/YOURLOGO.png"
+  Leave logoImg as "" to use text logo (CONFIG.brandName).
+
+=======================================================================
+-->
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title> The Abstract Canvas by Ashish</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf9f7;--warm:#f5f3ef;--stone:#e8e4dd;--charcoal:#1a1a18;--ink:#2d2d2a;
+  --muted:#7a7870;--accent:#c4a882;--gold:#b89a6a;--gold-light:#d4b896;--border:#e0dbd2;
+  --font-display:'Cormorant Garamond',serif;--font-body:'DM Sans',sans-serif;
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:10px}
+body{font-family:var(--font-body);background:var(--cream);color:var(--charcoal);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width 0.2s,height 0.2s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.25s,height 0.25s,opacity 0.25s}
+.cursor-ring.hovered{width:58px;height:58px;opacity:0.4}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--charcoal);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity 0.8s,visibility 0.8s}
+#loader.done{opacity:0;visibility:hidden}
+.ldr-logo{font-family:var(--font-display);font-size:26px;color:white;letter-spacing:0.06em;opacity:0;animation:fadeInUp 0.7s 0.2s ease forwards}
+.ldr-line{width:220px;height:1px;background:rgba(255,255,255,0.12);position:relative;overflow:hidden;opacity:0;animation:fadeInUp 0.6s 0.5s ease forwards}
+.ldr-progress{position:absolute;top:0;left:0;height:100%;background:var(--gold);width:0%;transition:width 0.6s ease}
+.ldr-sub{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.25);opacity:0;animation:fadeInUp 0.6s 0.8s ease forwards}
+
+/* NAV */
+nav{position:fixed;top:0;z-index:500;width:100%;padding:0 5vw;transition:background 0.4s,box-shadow 0.4s}
+nav.scrolled{background:rgba(250,249,247,0.97);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+.nav-logo{font-family:var(--font-display);font-size:20px;font-weight:500;letter-spacing:0.02em;cursor:pointer;transition:color 0.3s}
+.nav-logo.light{color:white}
+.nav-logo.dark{color:var(--charcoal)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links li a{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:color 0.2s;position:relative}
+.nav-links li a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s}
+.nav-links li a:hover::after,.nav-links li a.active::after{width:100%}
+.nav-links li a.light-link{color:rgba(255,255,255,0.65)}
+.nav-links li a.light-link:hover,.nav-links li a.light-link.active{color:white}
+.nav-links li a.dark-link{color:var(--muted)}
+.nav-links li a.dark-link:hover,.nav-links li a.dark-link.active{color:var(--charcoal)}
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{display:flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;background:none;border:none;font-family:var(--font-body);transition:color 0.2s}
+.cart-btn.light{color:rgba(255,255,255,0.75)}
+.cart-btn.dark{color:var(--charcoal)}
+.cart-count{background:var(--gold);color:white;border-radius:50%;width:20px;height:20px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{height:100vh;position:relative;overflow:hidden;background:#0e0e0c}
+.hero-bg-gallery{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;height:100%}
+.hero-bg-strip{overflow:hidden}
+.hero-bg-strip img{width:100%;height:100%;object-fit:cover;filter:brightness(0.32);animation:stripFloat 14s ease-in-out infinite alternate}
+.hero-bg-strip:nth-child(2) img{animation-delay:-5s;animation-duration:18s}
+.hero-bg-strip:nth-child(3) img{animation-delay:-9s;animation-duration:12s}
+@keyframes stripFloat{0%{transform:scale(1) translateY(0)}100%{transform:scale(1.07) translateY(-2%)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(150deg,rgba(14,14,12,0.72) 0%,rgba(14,14,12,0.35) 60%,rgba(14,14,12,0.65) 100%)}
+.hero-scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(255,255,255,0.012) 80px,rgba(255,255,255,0.012) 81px);pointer-events:none}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 8vw 10vh}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:24px;opacity:0;animation:fadeInUp 0.7s 1.2s ease forwards}
+.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
+.hero-eyebrow span{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.hero-title{font-family:var(--font-display);font-size:clamp(54px,8.5vw,116px);font-weight:300;line-height:0.92;color:white;margin-bottom:30px}
+.hero-line{display:block;opacity:0;transform:translateY(60px);animation:lineReveal 0.9s ease forwards}
+.hero-line:nth-child(1){animation-delay:1.35s}
+.hero-line:nth-child(2){animation-delay:1.6s}
+.hero-line em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.44);max-width:420px;line-height:1.85;margin-bottom:40px;opacity:0;animation:fadeInUp 0.8s 2.0s ease forwards}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeInUp 0.8s 2.3s ease forwards}
+.hero-aside{position:absolute;bottom:36px;right:8vw;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeInUp 0.8s 2.7s ease forwards}
+.hero-aside span{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.28);writing-mode:vertical-rl}
+.scroll-bar{width:1px;height:44px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollBar 2.2s ease-in-out infinite}
+@keyframes scrollBar{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.hero-badge{position:absolute;bottom:36px;left:8vw;opacity:0;animation:fadeInUp 0.7s 2.7s ease forwards}
+.hero-badge-inner{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.1em}
+.hero-badge-inner strong{color:rgba(255,255,255,0.5);font-weight:400}
+
+/* MARQUEE */
+.marquee-strip{background:var(--charcoal);padding:15px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,0.05)}
+.marquee-track{display:flex;white-space:nowrap;animation:marquee 28s linear infinite}
+.m-item{display:inline-flex;align-items:center;gap:18px;padding:0 28px;font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:rgba(255,255,255,0.28)}
+.m-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* BUTTONS */
+.btn-gold{background:var(--gold);color:white;padding:14px 34px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--font-body);transition:all 0.3s;position:relative;overflow:hidden}
+.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent);transform:translateX(-100%);transition:transform 0.5s}
+.btn-gold:hover::before{transform:translateX(100%)}
+.btn-ghost{background:transparent;color:white;padding:14px 34px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.3);cursor:pointer;font-family:var(--font-body);transition:all 0.3s}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.6)}
+.btn-dark{background:var(--charcoal);color:white;padding:14px 34px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--font-body);transition:background 0.3s}
+.btn-dark:hover{background:var(--ink)}
+.btn-outline-dark{background:transparent;color:var(--charcoal);padding:13px 32px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:1px solid var(--charcoal);cursor:pointer;font-family:var(--font-body);transition:all 0.3s}
+.btn-outline-dark:hover{background:var(--charcoal);color:white}
+
+/* SECTIONS */
+section{padding:96px 8vw}
+.s-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.s-title{font-family:var(--font-display);font-size:clamp(34px,4.5vw,60px);font-weight:300;line-height:1.1}
+.s-title em{font-style:italic;color:var(--gold)}
+.s-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px}
+.s-link{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;border-bottom:1px solid var(--stone);padding-bottom:2px;font-family:var(--font-body);transition:all 0.2s}
+.s-link:hover{color:var(--charcoal);border-color:var(--charcoal)}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px}
+.product-card{cursor:pointer}
+.product-img-wrap{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--stone);margin-bottom:16px}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),filter 0.4s}
+.product-card:hover .product-img-wrap img{transform:scale(1.07);filter:brightness(0.92)}
+.product-overlay{position:absolute;inset:0;background:rgba(14,14,12,0.6);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;backdrop-filter:blur(2px)}
+.product-card:hover .product-overlay{opacity:1}
+.ovr-btn{background:white;color:var(--charcoal);padding:10px 28px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--font-body);width:166px;transition:background 0.2s}
+.ovr-btn:hover{background:var(--cream)}
+.ovr-btn.gold{background:var(--gold);color:white}
+.ovr-btn.gold:hover{background:var(--charcoal)}
+.p-tag{position:absolute;top:13px;left:13px;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;background:var(--gold);color:white;padding:3px 10px}
+.p-title{font-family:var(--font-display);font-size:19px;font-weight:400;margin-bottom:5px}
+.p-meta{display:flex;justify-content:space-between;align-items:center}
+.p-price{font-size:14px;font-weight:500}
+.p-size{font-size:11px;color:var(--muted);letter-spacing:0.05em}
+
+/* STATEMENT */
+.statement{background:var(--charcoal);padding:96px 8vw;text-align:center;position:relative;overflow:hidden}
+.statement::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 50% 50%,rgba(184,154,106,0.07) 0%,transparent 70%)}
+.statement-q{font-family:var(--font-display);font-size:clamp(26px,3.8vw,54px);font-weight:300;font-style:italic;color:white;line-height:1.35;max-width:860px;margin:0 auto 28px;position:relative}
+.statement-q em{color:var(--gold-light);font-style:normal}
+.statement-attr{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.28);position:relative}
+
+/* GALLERY MOSAIC */
+.mosaic{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4px}
+.mosaic-row2{display:grid;grid-template-columns:1fr 1fr 2fr;gap:4px;margin-top:4px}
+.gcell{overflow:hidden;cursor:pointer;position:relative}
+.gcell img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease,filter 0.4s}
+.gcell:hover img{transform:scale(1.06);filter:brightness(1.06)}
+.gcell.r-tall{aspect-ratio:3/4}
+.gcell.r-sq{aspect-ratio:1}
+.gcell.r-tall2{aspect-ratio:4/5}
+.gcell.r-wide{aspect-ratio:16/9}
+.g-hover-label{position:absolute;inset:0;background:rgba(14,14,12,0);display:flex;align-items:flex-end;padding:18px;transition:background 0.3s}
+.gcell:hover .g-hover-label{background:rgba(14,14,12,0.38)}
+.g-hover-label span{font-family:var(--font-display);font-size:15px;font-style:italic;color:white;opacity:0;transform:translateY(8px);transition:all 0.35s}
+.gcell:hover .g-hover-label span{opacity:1;transform:translateY(0)}
+
+/* PROCESS */
+.process-bg{background:var(--warm);padding:96px 8vw}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:52px}
+.p-step{border-top:2px solid var(--border);padding-top:36px}
+.p-step.gold-top{border-color:var(--gold)}
+.p-num{font-family:var(--font-display);font-size:50px;font-weight:300;color:var(--border);margin-bottom:14px;line-height:1}
+.p-step-title{font-size:13px;font-weight:500;letter-spacing:0.05em;margin-bottom:10px}
+.p-step-desc{font-size:13px;color:var(--muted);line-height:1.85}
+
+/* ABOUT SPLIT */
+.about-split{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:580px}
+.as-img{overflow:hidden;position:relative}
+.as-img img{width:100%;height:100%;object-fit:cover;transition:transform 10s ease}
+.as-img:hover img{transform:scale(1.04)}
+.as-content{background:var(--charcoal);padding:80px 6vw;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.as-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold)}
+.as-title{font-family:var(--font-display);font-size:clamp(34px,3.5vw,50px);font-weight:300;color:white;line-height:1.2}
+.as-title em{font-style:italic;color:var(--gold-light)}
+.as-body{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.95}
+.as-sig{font-family:'Playfair Display',serif;font-size:30px;font-style:italic;color:var(--gold-light)}
+.as-stats{display:flex;gap:36px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.08)}
+.as-stat-n{font-family:var(--font-display);font-size:38px;font-weight:300;color:white;line-height:1}
+.as-stat-d{font-size:10px;letter-spacing:0.05em;color:rgba(255,255,255,0.3);margin-top:4px}
+
+/* INSTAGRAM */
+.insta-section{padding:96px 8vw;background:var(--warm)}
+.insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:44px}
+.insta-cell{aspect-ratio:1;overflow:hidden;cursor:pointer;position:relative}
+.insta-cell img{width:100%;height:100%;object-fit:cover;transition:transform 0.55s,filter 0.4s}
+.insta-cell:hover img{transform:scale(1.1);filter:brightness(0.72)}
+.insta-cell::after{content:'♥';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:22px;opacity:0;transition:opacity 0.3s}
+.insta-cell:hover::after{opacity:1}
+
+/* SHOP BANNER */
+.page-banner{background:var(--charcoal);padding:120px 8vw 56px;position:relative;overflow:hidden}
+.page-banner::before{content:'';position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1600&q=50');background-size:cover;background-position:center;opacity:0.07}
+.pb-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;position:relative}
+.pb-title{font-family:var(--font-display);font-size:clamp(42px,7vw,82px);font-weight:300;color:white;position:relative}
+.pb-title em{font-style:italic;color:var(--gold-light)}
+.pb-count{font-size:12px;color:rgba(255,255,255,0.3);margin-top:8px;position:relative}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:42px;padding-bottom:26px;border-bottom:1px solid var(--border);align-items:flex-end}
+.f-group{display:flex;flex-direction:column;gap:6px}
+.f-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.f-select{padding:9px 36px 9px 14px;border:1px solid var(--border);background:white;font-size:12px;font-family:var(--font-body);color:var(--charcoal);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a7870'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;min-width:148px;transition:border-color 0.2s}
+.f-select:focus{outline:none;border-color:var(--gold)}
+
+/* DETAIL */
+.detail-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;padding:80px 8vw;min-height:80vh}
+.d-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--stone);cursor:zoom-in}
+.d-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.d-img-wrap:hover img{transform:scale(1.05)}
+.d-info{padding-top:20px;display:flex;flex-direction:column;gap:20px}
+.d-breadcrumb{font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.d-breadcrumb span{cursor:pointer;transition:color 0.2s}
+.d-breadcrumb span:hover{color:var(--charcoal)}
+.d-breadcrumb .sep{color:var(--stone)}
+.d-badge{display:inline-block;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:var(--warm);color:var(--muted);padding:5px 13px;border:1px solid var(--border)}
+.d-title{font-family:var(--font-display);font-size:44px;font-weight:300;line-height:1.15;margin-top:14px}
+.d-price{font-size:26px;font-weight:400;margin-top:8px}
+.d-desc{font-size:14px;color:var(--muted);line-height:1.88;border-top:1px solid var(--border);padding-top:20px}
+.sz-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.sz-btns{display:flex;gap:8px;flex-wrap:wrap}
+.sz-btn{padding:8px 16px;border:1px solid var(--border);background:white;font-size:11px;cursor:pointer;font-family:var(--font-body);color:var(--charcoal);transition:all 0.2s;letter-spacing:0.05em}
+.sz-btn:hover,.sz-btn.active{border-color:var(--gold);background:var(--gold);color:white}
+.action-btns{display:flex;flex-direction:column;gap:10px}
+.btn-full{width:100%;padding:15px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--font-body);transition:all 0.25s}
+.btn-cart{background:var(--charcoal);color:white}
+.btn-cart:hover{background:var(--ink)}
+.btn-buy-wht{background:transparent;color:var(--charcoal);border:1px solid var(--charcoal)!important}
+.btn-buy-wht:hover{background:var(--warm)}
+.btn-wa{background:#25d366;color:white;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-wa:hover{background:#1eb758}
+.d-meta{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:16px;font-size:12px;color:var(--muted)}
+.d-meta p::before{content:'— ';color:var(--gold)}
+
+/* CART */
+.cart-layout{display:grid;grid-template-columns:1fr 360px;gap:60px;padding:60px 8vw;align-items:start}
+.cart-items-list{display:flex;flex-direction:column;gap:24px}
+.c-item{display:grid;grid-template-columns:108px 1fr auto;gap:20px;align-items:center;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.c-item-img{aspect-ratio:3/4;overflow:hidden;background:var(--stone)}
+.c-item-img img{width:100%;height:100%;object-fit:cover}
+.c-item-title{font-family:var(--font-display);font-size:19px;margin-bottom:3px}
+.c-item-meta{font-size:12px;color:var(--muted)}
+.c-item-price{font-size:15px;font-weight:500;text-align:right}
+.remove-btn{font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:none;background:none;font-family:var(--font-body);margin-top:8px;display:block;transition:color 0.2s}
+.remove-btn:hover{color:#c0392b}
+.order-sum{background:var(--charcoal);padding:34px;position:sticky;top:86px;color:white}
+.sum-title{font-family:var(--font-display);font-size:24px;font-weight:300;margin-bottom:26px;color:white}
+.sum-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:11px;color:rgba(255,255,255,0.4)}
+.sum-total{display:flex;justify-content:space-between;font-size:18px;border-top:1px solid rgba(255,255,255,0.1);padding-top:16px;margin-top:14px;color:white}
+.checkout-note{font-size:11px;color:rgba(255,255,255,0.28);margin-top:14px;text-align:center;letter-spacing:0.04em}
+.pay-icons{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.pay-icon{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);padding:3px 10px;font-size:10px;letter-spacing:0.05em;color:rgba(255,255,255,0.35);border-radius:2px}
+.empty-cart{text-align:center;padding:80px 20px}
+.empty-t{font-family:var(--font-display);font-size:34px;font-weight:300;margin-bottom:11px}
+.empty-s{font-size:14px;color:var(--muted);margin-bottom:30px}
+
+/* ABOUT PAGE */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:100px 8vw;align-items:center}
+.about-img{aspect-ratio:4/5;overflow:hidden;position:relative}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.about-caption{position:absolute;bottom:20px;left:20px;background:var(--charcoal);padding:9px 15px;font-family:var(--font-display);font-size:13px;font-style:italic;color:var(--gold-light)}
+.about-content{display:flex;flex-direction:column;gap:22px}
+.about-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold)}
+.about-title{font-family:var(--font-display);font-size:clamp(34px,4vw,56px);font-weight:300;line-height:1.2}
+.about-body{font-size:14px;color:var(--muted);line-height:1.95}
+.about-pq{font-family:var(--font-display);font-size:21px;font-style:italic;color:var(--charcoal);border-left:3px solid var(--gold);padding-left:22px;line-height:1.55}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.a-stat{border-top:2px solid var(--stone);padding-top:14px}
+.a-stat.g-top{border-color:var(--gold)}
+.a-num{font-family:var(--font-display);font-size:42px;font-weight:300;line-height:1}
+.a-desc{font-size:11px;color:var(--muted);letter-spacing:0.05em;margin-top:3px}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:80px 8vw}
+.c-title{font-family:var(--font-display);font-size:clamp(30px,3.5vw,50px);font-weight:300;line-height:1.2;margin-bottom:14px}
+.c-body{font-size:14px;color:var(--muted);line-height:1.92}
+.c-method{display:flex;align-items:center;gap:15px;padding:17px;border:1px solid var(--border);background:white;cursor:pointer;transition:all 0.3s;margin-top:12px}
+.c-method:hover{border-color:var(--gold);background:var(--warm)}
+.m-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.m-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.m-val{font-size:14px;font-weight:500}
+.f-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.f-input{width:100%;padding:12px 15px;border:1px solid var(--border);background:white;font-size:14px;font-family:var(--font-body);color:var(--charcoal);outline:none;transition:border-color 0.2s;resize:vertical;margin-bottom:14px}
+.f-input:focus{border-color:var(--gold)}
+
+/* RELATED */
+.related-sec{padding:60px 8vw;background:var(--warm);border-top:1px solid var(--border)}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--charcoal);color:white;padding:13px 24px;font-size:12px;letter-spacing:0.04em;z-index:999;transform:translateY(80px);opacity:0;transition:all 0.38s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;border-left:3px solid var(--gold)}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* FOOTER */
+footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:56px}
+.f-brand{font-family:var(--font-display);font-size:22px;font-weight:300;margin-bottom:14px;letter-spacing:0.02em}
+.f-tagline{font-size:13px;color:rgba(255,255,255,0.33);line-height:1.8}
+.f-gold-bar{width:36px;height:2px;background:var(--gold);margin-bottom:22px}
+.f-col-t{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:18px}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:11px}
+.f-links li{font-size:13px;color:rgba(255,255,255,0.48);cursor:pointer;transition:color 0.2s}
+.f-links li:hover{color:white}
+.f-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center}
+.f-copy{font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:0.04em}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.r1{transition-delay:0.08s}
+.r2{transition-delay:0.18s}
+.r3{transition-delay:0.28s}
+.r4{transition-delay:0.38s}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineReveal{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── SKELETON LOADER ─── */
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.skeleton{background:linear-gradient(90deg,var(--stone) 25%,var(--border) 50%,var(--stone) 75%);background-size:800px 100%;animation:shimmer 1.6s infinite linear;position:relative}
+.product-img-wrap.loading{background:var(--stone)}
+.product-img-wrap.loading .skeleton-img{width:100%;height:100%;display:block}
+.skeleton-card{background:white}
+.skeleton-title{height:18px;border-radius:2px;margin-bottom:8px;width:75%}
+.skeleton-price{height:13px;border-radius:2px;width:45%}
+
+/* ─── IMAGE WRAP WITH SHIMMER ─── */
+.img-wrap-inner{position:relative;width:100%;height:100%}
+.img-skeleton{position:absolute;inset:0;background:linear-gradient(90deg,var(--stone) 25%,#ede9e1 50%,var(--stone) 75%);background-size:800px 100%;animation:shimmer 1.6s infinite linear}
+.img-wrap-inner img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease}
+.img-wrap-inner img.loaded{opacity:1}
+
+/* ─── PAYMENT MODAL ─── */
+#payment-modal{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center}
+#payment-modal.open{display:flex}
+.modal-backdrop{position:absolute;inset:0;background:rgba(14,14,12,0.7);backdrop-filter:blur(6px);animation:fadeIn 0.3s ease}
+.modal-box{position:relative;background:white;width:min(520px,94vw);max-height:90vh;overflow-y:auto;animation:modalSlideUp 0.35s cubic-bezier(0.34,1.3,0.64,1)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalSlideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{background:var(--charcoal);padding:22px 28px;display:flex;align-items:center;justify-content:space-between}
+.modal-header-title{font-family:var(--font-display);font-size:22px;font-weight:300;color:white}
+.modal-header-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;letter-spacing:0.05em}
+.modal-close{background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:22px;line-height:1;padding:4px;transition:color 0.2s}
+.modal-close:hover{color:white}
+.modal-order-summary{background:var(--warm);padding:16px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-order-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.modal-order-amount{font-family:var(--font-display);font-size:26px;font-weight:400;color:var(--charcoal)}
+.modal-order-items{font-size:12px;color:var(--muted);margin-top:2px}
+.modal-body{padding:24px 28px}
+.pay-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px;gap:0}
+.pay-tab{flex:1;padding:11px 8px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--font-body);color:var(--muted);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pay-tab.active{color:var(--charcoal);border-bottom-color:var(--gold)}
+.pay-panel{display:none}
+.pay-panel.active{display:block}
+.pay-row{margin-bottom:14px}
+.pay-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.pay-input{width:100%;padding:11px 14px;border:1px solid var(--border);background:white;font-size:14px;font-family:var(--font-body);color:var(--charcoal);outline:none;transition:border-color 0.2s}
+.pay-input:focus{border-color:var(--gold)}
+.pay-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.upi-box{border:1px solid var(--border);padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s;margin-bottom:10px}
+.upi-box:hover,.upi-box.sel{border-color:var(--gold);background:var(--warm)}
+.upi-box .upi-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:0.05em}
+.upi-box .upi-label{font-size:13px;font-weight:500}
+.upi-box .upi-sub{font-size:11px;color:var(--muted)}
+.nb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.nb-option{border:1px solid var(--border);padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.2s;font-size:13px}
+.nb-option:hover,.nb-option.sel{border-color:var(--gold);background:var(--warm)}
+.nb-icon{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:0.05em;color:white}
+.pay-secure-row{display:flex;align-items:center;gap:8px;padding:12px 0;border-top:1px solid var(--border);margin-top:6px}
+.pay-secure-row svg{color:var(--gold)}
+.pay-secure-text{font-size:11px;color:var(--muted);letter-spacing:0.03em}
+.modal-pay-btn{width:100%;padding:15px;background:var(--gold);color:white;border:none;cursor:pointer;font-family:var(--font-body);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:16px;transition:all 0.3s;position:relative;overflow:hidden}
+.modal-pay-btn:hover{background:var(--charcoal)}
+.modal-pay-btn:disabled{opacity:0.6;cursor:not-allowed}
+.modal-success{display:none;flex-direction:column;align-items:center;justify-content:center;padding:50px 28px;text-align:center;gap:16px}
+.modal-success.show{display:flex}
+.success-circle{width:70px;height:70px;border-radius:50%;background:var(--warm);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.success-title{font-family:var(--font-display);font-size:28px;font-weight:300}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:320px}
+.razorpay-badge{display:flex;align-items:center;gap:6px;margin-top:6px;opacity:0.5}
+.razorpay-badge span{font-size:10px;letter-spacing:0.05em;color:var(--muted)}
+
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:5px;cursor:pointer}
+.hamburger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .3s;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* ── MOBILE DRAWER ── */
+.mob-menu{position:fixed;top:0;left:0;width:100%;height:100%;z-index:700;pointer-events:none}
+.mob-bg{position:absolute;inset:0;background:rgba(14,14,12,.65);opacity:0;transition:opacity .3s;backdrop-filter:blur(4px)}
+.mob-panel{position:absolute;top:0;right:0;width:min(300px,84vw);height:100%;background:var(--charcoal);transform:translateX(110%);transition:transform .38s cubic-bezier(.25,.46,.45,.94);overflow-y:auto;padding:70px 26px 40px}
+.mob-menu.open{pointer-events:auto}
+.mob-menu.open .mob-bg{opacity:1}
+.mob-menu.open .mob-panel{transform:translateX(0)}
+.mob-logo{font-family:var(--font-d);font-size:16px;color:#fff;margin-bottom:32px;letter-spacing:.02em;line-height:1.4}
+.mob-links{list-style:none;display:flex;flex-direction:column;gap:2px}
+.mob-links li a{font-size:26px;font-family:var(--font-d);font-weight:300;color:rgba(255,255,255,.5);display:block;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:color .2s}
+.mob-links li a:hover,.mob-links li a.active{color:#fff}
+.mob-cta{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;width:100%;height:60px;background:var(--charcoal);z-index:600;border-top:1px solid rgba(255,255,255,.07)}
+.bn-row{display:flex;height:100%}
+.bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.38);transition:color .2s;font-family:var(--font-b);padding:0}
+.bn-btn.active{color:var(--gold)}
+.bn-lbl{font-size:9px;letter-spacing:.07em;text-transform:uppercase}
+/* ── SKELETON LOADER ── */
+@keyframes shimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
+.sk-layer{position:absolute;inset:0;background:linear-gradient(90deg,var(--stone) 20%,#ede9e2 50%,var(--stone) 80%);background-size:500px 100%;animation:shimmer 1.4s infinite linear;z-index:0}
+/* product imgs */
+.product-img-wrap{position:relative}
+.product-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease,transform .7s cubic-bezier(.25,.46,.45,.94);z-index:1}
+.product-img-wrap img.sloaded{opacity:1}
+.product-card:hover .product-img-wrap img.sloaded{transform:scale(1.06)}
+/* gallery imgs */
+.gcell{position:relative}
+.gcell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s,transform .6s ease;z-index:1}
+.gcell img.sloaded{opacity:1}
+.gcell:hover img.sloaded{transform:scale(1.06)}
+/* other imgs */
+.insta-cell img,.as-img img,.about-img img{opacity:0;transition:opacity .5s}
+.insta-cell img.sloaded,.as-img img.sloaded,.about-img img.sloaded{opacity:1}
+/* toast above bottom nav */
+.toast{bottom:72px!important}
+
+/* ════ MOBILE ════ */
+@media(max-width:768px){
+  .bottom-nav{display:flex}
+  .hamburger{display:flex}
+  .nav-links{display:none}
+  nav{padding:0 4vw}
+  .nav-inner{height:58px}
+
+  /* hero */
+  .hero-bg-gallery{grid-template-columns:1fr}
+  .hero-bg-strip:nth-child(2),.hero-bg-strip:nth-child(3){display:none}
+  .hero-content{padding:0 5vw 80px}
+  .hero-title{font-size:clamp(40px,11vw,60px);line-height:.95}
+  .hero-sub{font-size:13px;margin-bottom:26px}
+  .hero-ctas{flex-direction:column;gap:10px}
+  .hero-ctas .btn-gold,.hero-ctas .btn-ghost{width:100%;text-align:center;padding:14px}
+  .hero-aside{display:none}
+  .hero-badge{bottom:72px}
+
+  /* sections */
+  section{padding:54px 5vw}
+  .s-header{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:28px}
+  .mosaic-wrap{padding:0 5vw 54px!important}
+  .process-bg,.insta-section{padding:54px 5vw}
+  .statement{padding:54px 5vw}
+  .statement-q{font-size:clamp(20px,5.5vw,32px)}
+
+  /* product grid 2 cols */
+  .prod-grid,.product-grid{grid-template-columns:1fr 1fr!important;gap:13px}
+  .p-title{font-size:15px}
+  .p-meta{flex-direction:column;align-items:flex-start;gap:2px}
+  .p-size{font-size:10px}
+
+  /* mosaic */
+  .mosaic{grid-template-columns:1fr 1fr}
+  .mosaic-row2{grid-template-columns:1fr 1fr}
+  .gcell.r-wide{display:none}
+
+  /* process 2 cols */
+  .process-steps,.proc-grid{grid-template-columns:1fr 1fr;gap:20px}
+  .p-num{font-size:36px}
+
+  /* about split stack */
+  .about-split{grid-template-columns:1fr}
+  .as-img{min-height:260px}
+  .as-content{padding:42px 5vw}
+
+  /* insta 3 cols */
+  .insta-grid{grid-template-columns:repeat(3,1fr);gap:3px}
+
+  /* page banner */
+  .page-banner{padding:86px 5vw 38px}
+
+  /* filter scroll */
+  .filter-bar{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:12px;padding-right:5vw}
+  .filter-bar::-webkit-scrollbar{display:none}
+  .f-select{min-width:128px}
+
+  /* detail stack */
+  .detail-layout{grid-template-columns:1fr;gap:0;padding:0}
+  .d-img-wrap{aspect-ratio:4/3}
+  .d-info{padding:20px 5vw calc(70px + 20px)}
+  .d-title{font-size:28px}
+  .d-price{font-size:20px}
+
+  /* cart stack */
+  .cart-layout{grid-template-columns:1fr;gap:22px;padding:32px 5vw calc(72px + 22px)}
+  .order-sum{position:static;margin-top:0}
+  .c-item{grid-template-columns:80px 1fr auto;gap:12px}
+  .c-item-title{font-size:15px}
+
+  /* about page */
+  .about-layout{grid-template-columns:1fr;gap:32px;padding:56px 5vw}
+  .about-img{aspect-ratio:4/3}
+
+  /* contact */
+  .contact-layout{grid-template-columns:1fr;gap:32px;padding:52px 5vw}
+
+  /* footer */
+  .f-grid{grid-template-columns:1fr 1fr;gap:26px;margin-bottom:28px}
+  footer{padding:46px 5vw calc(20px + 60px)}
+  .f-bottom{flex-direction:column;align-items:flex-start;gap:4px}
+
+  /* payment modal */
+  #pay-modal{align-items:flex-end}
+  .modal-box{border-radius:18px 18px 0 0;max-height:90svh;width:100%}
+  .pay-row-2{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .product-grid,.prod-grid{grid-template-columns:1fr 1fr!important;gap:10px}
+  .f-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <p class="ldr-logo">Abstract Canvas by Ashish</p>
+  <div class="ldr-line"><div class="ldr-progress" id="ldr-bar"></div></div>
+  <p class="ldr-sub">Loading the gallery...</p>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav id="main-nav">
+  <div class="nav-inner">
+    <div class="nav-logo light" data-cfg="logo" id="nav-logo" onclick="showPage('home')">Abstract Canvas by Ashish</div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" id="nav-home" class="light-link active">Home</a></li>
+      <li><a onclick="showPage('shop')" id="nav-shop" class="light-link">Shop</a></li>
+      <li><a onclick="showPage('about')" id="nav-about" class="light-link">About</a></li>
+      <li><a onclick="showPage('contact')" id="nav-contact" class="light-link">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="cart-btn light" id="cart-btn" onclick="showPage('cart')">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Cart <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <button class="hamburger light" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-bg" onclick="toggleMenu()"></div>
+  <div class="mob-panel">
+    <p class="mob-logo">Abstract Canvas<br>by Ashish</p>
+    <ul class="mob-links">
+      <li><a id="mob-home" onclick="showPage('home');toggleMenu()" class="active">Home</a></li>
+      <li><a id="mob-shop" onclick="showPage('shop');toggleMenu()">Shop</a></li>
+      <li><a id="mob-about" onclick="showPage('about');toggleMenu()">About</a></li>
+      <li><a id="mob-contact" onclick="showPage('contact');toggleMenu()">Contact</a></li>
+    </ul>
+    <div class="mob-cta">
+      <button class="btn-gold" style="width:100%;padding:13px" onclick="showPage('cart');toggleMenu()">
+        View Cart (<span id="mob-cart-count">0</span>)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-row">
+    <button class="bn-btn active" id="bn-home" onclick="showPage('home')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="bn-lbl">Home</span>
+    </button>
+    <button class="bn-btn" id="bn-shop" onclick="showPage('shop')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span class="bn-lbl">Shop</span>
+    </button>
+    <button class="bn-btn" id="bn-cart" onclick="showPage('cart')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="bn-lbl">Cart</span>
+    </button>
+    <button class="bn-btn" id="bn-about" onclick="showPage('about')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="bn-lbl">About</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-bg-gallery">
+      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80" loading="eager" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=80" loading="eager" alt="abstract art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=80" loading="eager" alt="canvas painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')" loading="eager"/></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-scanlines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <span>Original Abstract Art · Handcrafted in India</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-line">Where emotion</span>
+        <span class="hero-line">becomes <em>canvas</em></span>
+      </h1>
+      <p class="hero-sub">Each painting is an original expression — bold strokes, layered textures, and raw emotion translated into art for your space.</p>
+      <div class="hero-ctas">
+        <button class="btn-gold" onclick="showPage('shop')">Explore Gallery</button>
+        <button class="btn-ghost" onclick="showPage('about')">About the Artist</button>
+      </div>
+    </div>
+    <div class="hero-aside">
+      <div class="scroll-bar"></div>
+      <span>Scroll</span>
+    </div>
+    <div class="hero-badge">
+      <p class="hero-badge-inner"><strong>150+</strong> original artworks available</p>
+    </div>
+  </div>
+
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="m-item"><span class="m-dot"></span>Original Paintings</span>
+      <span class="m-item"><span class="m-dot"></span>Acrylic on Canvas</span>
+      <span class="m-item"><span class="m-dot"></span>Pan-India Shipping</span>
+      <span class="m-item"><span class="m-dot"></span>Custom Commissions</span>
+      <span class="m-item"><span class="m-dot"></span>Certificate of Authenticity</span>
+      <span class="m-item"><span class="m-dot"></span>7-Day Returns</span>
+      <span class="m-item"><span class="m-dot"></span>Hand Signed</span>
+      <span class="m-item"><span class="m-dot"></span>Original Paintings</span>
+      <span class="m-item"><span class="m-dot"></span>Acrylic on Canvas</span>
+      <span class="m-item"><span class="m-dot"></span>Pan-India Shipping</span>
+      <span class="m-item"><span class="m-dot"></span>Custom Commissions</span>
+      <span class="m-item"><span class="m-dot"></span>Certificate of Authenticity</span>
+      <span class="m-item"><span class="m-dot"></span>7-Day Returns</span>
+      <span class="m-item"><span class="m-dot"></span>Hand Signed</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="s-header reveal">
+      <div>
+        <p class="s-label">Curated Picks</p>
+        <h2 class="s-title">Featured<br><em>Collection</em></h2>
+      </div>
+      <button class="s-link" onclick="showPage('shop')">View all paintings →</button>
+    </div>
+    <div class="product-grid" id="featured-grid"></div>
+  </section>
+
+  <div class="statement">
+    <p class="statement-q reveal" data-cfg="quote">"I don't paint what I see. I paint what I feel when I <em>close my eyes.</em>"</p>
+    <p class="statement-attr reveal r2" data-cfg="artist-name">— Ashish, Abstract Artist</p>
+  </div>
+
+  <section style="padding-bottom:0;padding-top:80px">
+    <div class="s-header reveal">
+      <div>
+        <p class="s-label">The Work</p>
+        <h2 class="s-title">From the<br><em>Studio</em></h2>
+      </div>
+      <button class="s-link" onclick="showPage('shop')">Shop all →</button>
+    </div>
+  </section>
+  <div style="padding:0 8vw 80px" class="reveal">
+    <div class="mosaic">
+      <div class="gcell r-tall"><img data-lazy="https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&q=80" alt="painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Ember &amp; Dusk</span></div></div>
+      <div class="gcell r-sq"><img data-lazy="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80" alt="abstract" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Midnight Bloom</span></div></div>
+      <div class="gcell r-sq"><img data-lazy="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80" alt="canvas" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Violet Drift</span></div></div>
+    </div>
+    <div class="mosaic-row2">
+      <div class="gcell r-tall2"><img data-lazy="https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80" alt="art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Ochre Fields</span></div></div>
+      <div class="gcell r-tall2"><img data-lazy="https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80" alt="artwork" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Cerulean Haze</span></div></div>
+      <div class="gcell r-wide"><img data-lazy="https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=1000&q=80" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add(\'sloaded\')"/><div class="g-hover-label"><span>Copper Sunset</span></div></div>
+    </div>
+  </div>
+
+  <div class="process-bg">
+    <div class="s-header reveal">
+      <div>
+        <p class="s-label">The Process</p>
+        <h2 class="s-title">How a painting<br><em>comes to life</em></h2>
+      </div>
+    </div>
+    <div class="process-steps">
+      <div class="p-step gold-top reveal"><p class="p-num">01</p><p class="p-step-title">Conception</p><p class="p-step-desc">Every painting starts with an emotion — a memory, a dream, or a feeling that resists words.</p></div>
+      <div class="p-step reveal r1"><p class="p-num">02</p><p class="p-step-title">Canvas Prep</p><p class="p-step-desc">Premium cotton canvas is stretched and primed by hand, building the foundation for layers.</p></div>
+      <div class="p-step reveal r2"><p class="p-num">03</p><p class="p-step-title">Layering</p><p class="p-step-desc">Colors built layer by layer — wet on wet, dry brush, palette knife — each adding depth.</p></div>
+      <div class="p-step reveal r3"><p class="p-num">04</p><p class="p-step-title">Signed &amp; Sealed</p><p class="p-step-desc">Finished, signed, photographed, and shipped with a certificate of authenticity.</p></div>
+    </div>
+  </div>
+
+  <div class="about-split">
+    <div class="as-img"><img data-cfg="artist-photo" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80" loading="lazy" alt="artist at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/></div>
+    <div class="as-content">
+      <p class="as-label reveal">The Artist</p>
+      <h2 class="as-title reveal">Behind the <em>Canvas</em></h2>
+      <p class="as-body reveal">Ashish is a self-taught abstract artist based in India whose work explores the intersection of emotion, memory, and color. Each painting is an act of translation — feelings that resist language finding form in texture and hue.</p>
+      <p class="as-sig reveal">Ashish</p>
+      <div class="as-stats reveal">
+        <div><p class="as-stat-n">150+</p><p class="as-stat-d">Original Works</p></div>
+        <div><p class="as-stat-n">7+</p><p class="as-stat-d">Years Practice</p></div>
+        <div><p class="as-stat-n">∞</p><p class="as-stat-d">Emotions Painted</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insta-section">
+    <div class="s-header reveal">
+      <div>
+        <p class="s-label">On Instagram</p>
+        <h2 class="s-title">Follow the<br><em>Studio</em></h2>
+      </div>
+      <button class="s-link" data-cfg="insta-handle" onclick="openInsta()">@abstractcanvas.ashish ↗</button>
+    </div>
+    <div class="insta-grid" id="insta-grid"></div>
+  </div>
+
+</div>
+
+<!-- SHOP PAGE -->
+<div class="page" id="page-shop">
+  <div class="page-banner">
+    <p class="pb-label">Abstract Canvas by Ashish</p>
+    <h1 class="pb-title">The <em>Gallery</em></h1>
+    <p class="pb-count" id="shop-count">Showing all paintings</p>
+  </div>
+  <section style="padding-top:46px">
+    <div class="filter-bar">
+      <div class="f-group"><label class="f-label">Style</label><select class="f-select" id="filter-style" onchange="applyFilters()"><option value="">All Styles</option><option>Fluid Abstract</option><option>Geometric</option><option>Textured</option><option>Minimalist</option><option>Expressive</option></select></div>
+      <div class="f-group"><label class="f-label">Size</label><select class="f-select" id="filter-size" onchange="applyFilters()"><option value="">All Sizes</option><option>Small (12"×16")</option><option>Medium (18"×24")</option><option>Large (24"×36")</option><option>XL (36"×48")</option></select></div>
+      <div class="f-group"><label class="f-label">Price</label><select class="f-select" id="filter-price" onchange="applyFilters()"><option value="">Any Price</option><option>Under ₹5,000</option><option>₹5,000 – ₹15,000</option><option>₹15,000 – ₹30,000</option><option>Above ₹30,000</option></select></div>
+      <div class="f-group"><label class="f-label">Sort</label><select class="f-select" id="filter-sort" onchange="applyFilters()"><option>Featured</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Newest First</option></select></div>
+    </div>
+    <div class="product-grid" id="shop-grid"></div>
+    <div style="text-align:center;margin-top:60px" id="load-more-wrap">
+      <button class="btn-outline-dark" onclick="loadMore()" style="padding:14px 52px">Load More Paintings</button>
+    </div>
+  </section>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="page-detail">
+  <div class="detail-layout" id="detail-content"></div>
+  <div class="related-sec">
+    <div class="s-header">
+      <div><p class="s-label">More to Explore</p><h2 class="s-title">You may also <em>love</em></h2></div>
+    </div>
+    <div class="product-grid" id="related-grid"></div>
+  </div>
+</div>
+
+<!-- CART PAGE -->
+<div class="page" id="page-cart">
+  <div class="page-banner">
+    <p class="pb-label">Your Selection</p>
+    <h1 class="pb-title">Shopping <em>Cart</em></h1>
+  </div>
+  <div class="cart-layout">
+    <div id="cart-items-container"></div>
+    <div>
+      <div class="order-sum">
+        <p class="sum-title">Order Summary</p>
+        <div id="summary-rows"></div>
+        <div class="sum-total"><span>Total</span><span id="cart-total">₹0</span></div>
+        <button class="btn-full btn-cart" style="margin-top:22px" onclick="checkout()">Proceed to Checkout</button>
+        <button class="btn-full" style="margin-top:9px;background:#25d366;color:white;padding:14px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:8px" onclick="openWhatsApp('Order inquiry')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Order via WhatsApp
+        </button>
+        <p class="checkout-note">Secure checkout powered by Razorpay</p>
+        <div class="pay-icons"><span class="pay-icon">UPI</span><span class="pay-icon">VISA</span><span class="pay-icon">Mastercard</span><span class="pay-icon">Net Banking</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <div class="page-banner">
+    <p class="pb-label">The Artist</p>
+    <h1 class="pb-title">Behind the <em>Canvas</em></h1>
+  </div>
+  <div class="about-layout">
+    <div class="about-img">
+      <img data-cfg="artist-photo" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80" loading="lazy" alt="Ashish at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/>
+      <div class="about-caption">Ashish in the Studio, 2024</div>
+    </div>
+    <div class="about-content">
+      <p class="about-label">The Artist</p>
+      <h1 class="about-title">Behind the <em style="font-style:italic;color:var(--gold)">Canvas</em></h1>
+      <p class="about-body">Ashish is a self-taught abstract artist based in India whose work explores the intersection of emotion, memory, and color. Drawing from everyday moments and inner landscapes, each painting is an act of translation — feelings that resist language finding form in texture and hue.</p>
+      <p class="about-body">His practice spans fluid abstracts, bold geometric compositions, and deeply textured works, all created by hand on premium cotton canvas using professional-grade acrylics and mixed media. No two pieces are alike — every brushstroke carries intention.</p>
+      <div class="about-pq">"I don't paint what I see. I paint what I feel when I close my eyes."</div>
+      <div class="about-stats">
+        <div class="a-stat g-top"><p class="a-num">150+</p><p class="a-desc">Original Artworks</p></div>
+        <div class="a-stat"><p class="a-num">7+</p><p class="a-desc">Years of Practice</p></div>
+        <div class="a-stat"><p class="a-num">Pan-India</p><p class="a-desc">Delivery</p></div>
+        <div class="a-stat"><p class="a-num">Custom</p><p class="a-desc">Commissions</p></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--charcoal);padding:96px 8vw;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=1600&q=40');background-size:cover;background-position:center;opacity:0.07"></div>
+    <p style="font-family:var(--font-display);font-size:clamp(26px,4vw,52px);font-weight:300;max-width:760px;margin:0 auto;line-height:1.4;color:white;position:relative">Interested in a <em style="font-style:italic;color:var(--gold-light)">custom painting</em> for your space?</p>
+    <p style="font-size:14px;color:rgba(255,255,255,0.38);margin:18px auto 34px;max-width:460px;position:relative">Commission a one-of-a-kind artwork tailored to your vision, space, and palette.</p>
+    <button class="btn-gold" onclick="showPage('contact')" style="position:relative">Get in Touch</button>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="page-banner">
+    <p class="pb-label">Get in Touch</p>
+    <h1 class="pb-title">Let's <em>Connect</em></h1>
+  </div>
+  <div class="contact-layout">
+    <div>
+      <h2 class="c-title">Commission a Painting.<br>Ask a Question. Say Hello.</h2>
+      <p class="c-body">Whether you're looking for a custom piece for your home, a corporate commission, or just want to learn more about the work — Ashish would love to hear from you.</p>
+      <div class="c-method" onclick="openWhatsApp('Hello, I would like to inquire about your paintings.')">
+        <div class="m-icon" style="background:#e8f8ef"><svg width="20" height="20" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+        <div><p class="m-label">WhatsApp</p><p class="m-val">+91 97175 88424</p></div>
+      </div>
+      <div class="c-method" onclick="openInsta()">
+        <div class="m-icon" style="background:#fef0f7"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg></div>
+        <div><p class="m-label">Instagram</p><p class="m-val">@abstractcanvas.ashish</p></div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:22px">Send an Inquiry</p>
+      <label class="f-label">Name</label><input class="f-input" type="text" placeholder="Your full name"/>
+      <label class="f-label">Email</label><input class="f-input" type="email" placeholder="your@email.com"/>
+      <label class="f-label">Subject</label><select class="f-input" style="cursor:pointer"><option>Custom Commission</option><option>General Inquiry</option><option>Order Question</option><option>Collaboration</option></select>
+      <label class="f-label" style="margin-top:14px">Message</label>
+      <textarea class="f-input" rows="5" placeholder="Tell me about the painting you're looking for..."></textarea>
+      <button class="btn-gold" style="width:100%;padding:15px;font-size:11px" onclick="submitForm()">Send Inquiry</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-grid">
+    <div>
+      <div class="f-gold-bar"></div>
+      <p class="f-brand">Abstract Canvas by Ashish</p>
+      <p class="f-tagline">Original abstract paintings handcrafted in India. Each piece is a singular expression of emotion, texture, and color — made to transform your space.</p>
+    </div>
+    <div><p class="f-col-t">Navigate</p><ul class="f-links"><li onclick="showPage('home')">Home</li><li onclick="showPage('shop')">Shop</li><li onclick="showPage('about')">About</li><li onclick="showPage('contact')">Contact</li></ul></div>
+    <div><p class="f-col-t">Shop</p><ul class="f-links"><li onclick="showPage('shop')">All Paintings</li><li onclick="showPage('shop')">Fluid Abstract</li><li onclick="showPage('shop')">Geometric</li><li onclick="showPage('shop')">Custom Order</li></ul></div>
+    <div><p class="f-col-t">Connect</p><ul class="f-links"><li onclick="openWhatsApp('Hello!')">WhatsApp</li><li onclick="openInsta()">Instagram</li><li onclick="showPage('contact')">Commission</li></ul></div>
+  </div>
+  <div class="f-bottom">
+    <p class="f-copy">© 2025 Abstract Canvas by Ashish. All rights reserved.</p>
+    <p class="f-copy">Made with intention. Delivered with care.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+(function animRing(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('button,a,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovered'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovered'));
+});
+
+// LOADER
+const bar=document.getElementById('ldr-bar');let prog=0;
+const li=setInterval(()=>{
+  prog+=Math.random()*14+4;
+  if(prog>=100){prog=100;clearInterval(li);setTimeout(()=>{document.getElementById('loader').classList.add('done')},350)}
+  bar.style.width=prog+'%';
+},100);
+
+// NAV SCROLL
+function setNavStyle(isHero){
+  const nav=document.getElementById('main-nav');
+  const logo=document.getElementById('nav-logo');
+  const cb=document.getElementById('cart-btn');
+  const links=document.querySelectorAll('.nav-links a');
+  if(isHero&&window.scrollY<80){
+    nav.classList.remove('scrolled');logo.className='nav-logo light';cb.className='cart-btn light';
+    links.forEach(a=>{a.classList.remove('dark-link');a.classList.add('light-link')});
+  } else {
+    nav.classList.add('scrolled');logo.className='nav-logo dark';cb.className='cart-btn dark';
+    links.forEach(a=>{a.classList.remove('light-link');a.classList.add('dark-link')});
+  }
+}
+window.addEventListener('scroll',()=>setNavStyle(document.getElementById('page-home').classList.contains('active')));
+
+// SCROLL REVEAL
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+function observeReveals(){document.querySelectorAll('.reveal:not(.visible)').forEach(el=>ro.observe(el))}
+observeReveals();
+
+// ============================================================
+// ✏️  YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE
+// ============================================================
+
+const CONFIG = {
+
+  // ── BRAND ─────────────────────────────────────────────────
+  // Your brand name shown in nav, loader, footer, page titles
+  brandName: "Abstract Canvas by Ashish",
+
+  // Your logo: use either a text logo OR an image URL.
+  // For image logo: set logoImg to your image URL, e.g. "https://yoursite.com/logo.png"
+  // For text logo (default): leave logoImg as "" and just use brandName above
+  logoImg: "",          // e.g. "https://i.imgur.com/yourlogo.png"
+  logoImgHeight: "36px",// height of the logo image in nav
+
+  // Tagline shown on hero section
+  heroTagline: "Original Abstract Art · Handcrafted in India",
+  heroTitle1: "Where emotion",
+  heroTitle2: "becomes",
+  heroTitleHighlight: "canvas",
+  heroSubtext: "Each painting is an original expression — bold strokes, layered textures, and raw emotion translated into art for your space.",
+  heroStats: "150+ original artworks available",
+
+  // Artist quote shown on home + about page
+  artistQuote: "I don't paint what I see. I paint what I feel when I close my eyes.",
+  artistName: "Ashish",
+  artistBio1: "Ashish is a self-taught abstract artist based in India whose work explores the intersection of emotion, memory, and color. Drawing from everyday moments and inner landscapes, each painting is an act of translation — feelings that resist language finding form in texture and hue.",
+  artistBio2: "His practice spans fluid abstracts, bold geometric compositions, and deeply textured works, all created by hand on premium cotton canvas using professional-grade acrylics and mixed media. No two pieces are alike — every brushstroke carries intention.",
+
+  // Artist stats shown on About page + home split section
+  stat1Num: "150+", stat1Label: "Original Artworks",
+  stat2Num: "7+",   stat2Label: "Years of Practice",
+  stat3Num: "∞",    stat3Label: "Emotions Painted",
+
+  // ── CONTACT & SOCIAL ──────────────────────────────────────
+  // WhatsApp number (include country code, no + or spaces)
+  whatsappNumber: "919717588424",
+
+  // Instagram handle (without @)
+  instagramHandle: "abstractcanvas.ashish",
+
+  // Email address shown on contact page
+  email: "hello@abstractcanvas.in",
+
+  // ── HERO BACKGROUND IMAGES ────────────────────────────────
+  // Three images shown as background strips on the homepage hero
+  // Replace with your own painting photo URLs
+  heroBg1: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80",
+  heroBg2: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=80",
+  heroBg3: "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=80",
+
+  // Artist photo shown on About page & home split section
+  artistPhoto: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80",
+
+  // Gallery mosaic images (6 images shown on home page "From the Studio" section)
+  // Replace with your own painting photos
+  mosaicImages: [
+    { url: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&q=80", title: "Ember & Dusk" },
+    { url: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80", title: "Midnight Bloom" },
+    { url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80", title: "Violet Drift" },
+    { url: "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80", title: "Ochre Fields" },
+    { url: "https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80", title: "Cerulean Haze" },
+    { url: "https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=1000&q=80", title: "Copper Sunset" },
+  ],
+
+  // Instagram grid photos (6 photos shown on home page)
+  instaPhotos: [
+    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&q=80",
+    "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&q=80",
+    "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=400&q=80",
+    "https://images.unsplash.com/photo-1549887534-1541e9326642?w=400&q=80",
+    "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=400&q=80",
+    "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400&q=80",
+  ],
+
+  // ── PAINTINGS / SHOP PRODUCTS ─────────────────────────────
+  // Add YOUR paintings here. Each entry is one painting.
+  // - title: painting name
+  // - style: category (must match one of the filter options)
+  // - size: default size shown
+  // - price: price in ₹ for the default size
+  // - img: URL to your painting photo
+  // - description: shown on the painting detail page
+  // - isNew: true = shows "New" badge on the card
+  //
+  // 💡 HOW TO ADD YOUR OWN PHOTO:
+  //    Upload your painting image to a free host like:
+  //    • https://imgur.com  (upload → copy image link ending in .jpg)
+  //    • https://postimages.org
+  //    • Google Drive (share publicly, use direct link)
+  //    Then paste the URL in the "img" field below.
+  //
+  paintings: [
+    {
+      title: "Ember & Dusk",
+      style: "Fluid Abstract",
+      size: '18"×24"',
+      price: 8500,
+      img: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&q=80",
+      description: "A warm explosion of amber and rust — this fluid abstract captures the last light of a summer evening. Layers of paint flow and merge, creating depth and movement across the canvas.",
+      isNew: true
+    },
+    {
+      title: "Midnight Bloom",
+      style: "Expressive",
+      size: '24"×36"',
+      price: 18000,
+      img: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&q=80",
+      description: "Deep blues and violets bloom from the center of the canvas like flowers opening in darkness. An expressive piece that evolves the longer you look at it.",
+      isNew: true
+    },
+    {
+      title: "Verdant Storm",
+      style: "Textured",
+      size: '24"×36"',
+      price: 19500,
+      img: "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=600&q=80",
+      description: "Thick impasto technique brings this stormy green landscape to life. Palette knife and brush work in tandem — the texture catches light and shifts through the day.",
+      isNew: false
+    },
+    {
+      title: "Violet Drift",
+      style: "Minimalist",
+      size: '18"×24"',
+      price: 9500,
+      img: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&q=80",
+      description: "A single sweep of violet against an airy white ground. Minimal, contemplative, and deeply calming — this piece breathes.",
+      isNew: false
+    },
+    {
+      title: "Crimson Tide",
+      style: "Fluid Abstract",
+      size: '36"×48"',
+      price: 35000,
+      img: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80",
+      description: "Bold crimson waves sweep across a dark canvas in this large-format statement piece. Painted in a single session — the energy is raw and unfiltered.",
+      isNew: false
+    },
+    {
+      title: "Ochre Fields",
+      style: "Geometric",
+      size: '18"×24"',
+      price: 10000,
+      img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80",
+      description: "Geometric fields of ochre and gold divide the canvas into a landscape of warmth. Inspired by aerial views of Indian farmland at harvest time.",
+      isNew: false
+    },
+    {
+      title: "Grey Matter",
+      style: "Minimalist",
+      size: '12"×16"',
+      price: 4500,
+      img: "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80",
+      description: "A study in grey — from the palest silver to deep charcoal. This intimate small-format piece explores the full spectrum of a single color.",
+      isNew: false
+    },
+    {
+      title: "Amber Dreams",
+      style: "Expressive",
+      size: '24"×36"',
+      price: 21000,
+      img: "https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80",
+      description: "Warm amber and honey tones swirl through this dreamlike composition. Painted during golden hour, the light of that moment lives in every stroke.",
+      isNew: false
+    },
+    {
+      title: "Forest Echo",
+      style: "Textured",
+      size: '36"×48"',
+      price: 38000,
+      img: "https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=600&q=80",
+      description: "Deep greens and shadows echo the feeling of standing inside a dense forest. Heavy texture creates a surface that changes with every viewing angle.",
+      isNew: false
+    },
+    {
+      title: "Cerulean Haze",
+      style: "Fluid Abstract",
+      size: '18"×24"',
+      price: 9000,
+      img: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=600&q=80",
+      description: "Blue on blue on blue — this fluid piece is a meditation on one colour. Cerulean, cobalt, and teal blend in soft, cloudlike formations.",
+      isNew: false
+    },
+    {
+      title: "Rust & Gold",
+      style: "Geometric",
+      size: '24"×36"',
+      price: 17000,
+      img: "https://images.unsplash.com/photo-1551913902-c92207136625?w=600&q=80",
+      description: "Sharp geometric forms in rust and gold reference the ancient architecture of India — bold, structured, and enduring.",
+      isNew: false
+    },
+    {
+      title: "Copper Sunset",
+      style: "Expressive",
+      size: '36"×48"',
+      price: 40000,
+      img: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=600&q=80",
+      description: "The largest work in the collection — a copper and burnished orange sunset spreads across the full canvas. A commanding presence in any room.",
+      isNew: false
+    },
+  ],
+
+  // ── CANVAS SIZE OPTIONS & PRICES ─────────────────────────
+  // These are the size options shown on the painting detail page
+  // Each customer can pick a size — prices update automatically
+  // You can change the sizes and prices to match what you offer
+  sizes: ['12"×16"', '18"×24"', '24"×36"', '36"×48"'],
+  sizePrices: [4000, 9000, 18000, 35000],
+
+  // ── MARQUEE TEXT ─────────────────────────────────────────
+  // Text items that scroll across the bottom of the hero
+  marqueeItems: [
+    "Original Paintings",
+    "Acrylic on Canvas",
+    "Pan-India Shipping",
+    "Custom Commissions",
+    "Certificate of Authenticity",
+    "7-Day Returns",
+    "Hand Signed",
+  ],
+
+  // ── FOOTER ───────────────────────────────────────────────
+  footerTagline: "Original abstract paintings handcrafted in India. Each piece is a singular expression of emotion, texture, and color — made to transform your space.",
+  copyrightYear: "2025",
+
+};
+
+// ============================================================
+// END OF CONFIG — do not edit below unless you know JS
+// ============================================================
+
+// Apply config to DOM elements that are static HTML
+document.addEventListener('DOMContentLoaded', () => {
+  // Brand name
+  const brandEls = ['ldr-logo', 'nav-logo', 'mob-logo-text', 'footer-brand'];
+  // Logo
+  if (CONFIG.logoImg) {
+    document.querySelectorAll('.nav-logo-inner').forEach(el => {
+      el.innerHTML = `<img src="${CONFIG.logoImg}" style="height:${CONFIG.logoImgHeight};object-fit:contain;" alt="${CONFIG.brandName}"/>`;
+    });
+  }
+  // WhatsApp / Instagram
+  // (handled via openWhatsApp and openInsta functions using CONFIG values)
+});
+
+// Build products array from CONFIG.paintings
+const products = CONFIG.paintings.map((p, i) => ({
+  id: i,
+  title: p.title,
+  style: p.style,
+  size: p.size,
+  price: p.price,
+  img: p.img,
+  description: p.description,
+  isNew: p.isNew || false
+}));
+
+// Sizes
+const sizes = CONFIG.sizes;
+const sizePrices = CONFIG.sizePrices;
+const instaImgs = CONFIG.instaPhotos;
+
+// CART
+let cart=[],shopPage=0,SHOP_PER_PAGE=12,filteredProducts=[...products];
+function updateCartCount(){document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function addToCart(id,size){
+  const p=products[id],key=`${id}-${size||p.size}`,ex=cart.find(i=>i.key===key);
+  if(ex)ex.qty++;else cart.push({key,id,title:p.title,size:size||p.size,price:p.price,qty:1,img:p.img});
+  updateCartCount();showToast(`"${p.title}" added to cart ✓`);
+}
+function removeFromCart(key){cart=cart.filter(i=>i.key!==key);updateCartCount();renderCart()}
+
+// PAGES
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.mob-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const navEl=document.getElementById('nav-'+name);
+  if(navEl)navEl.classList.add('active');
+  const mobEl=document.getElementById('mob-'+name);
+  if(mobEl)mobEl.classList.add('active');
+  setBn(name==='contact'?'about':name);
+  window.scrollTo({top:0,behavior:'smooth'});
+  setNavStyle(name==='home');
+  if(name==='home')renderFeatured();
+  if(name==='shop')renderShop();
+  if(name==='cart')renderCart();
+  setTimeout(()=>{observeReveals();},100);
+  // update mob cart count
+  document.getElementById('mob-cart-count').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+
+// RENDER
+function productCardHTML(p){
+  return `<div class="product-card" onclick="openProduct(${p.id})">
+    <div class="product-img-wrap">
+      <div class="sk-layer"></div>
+      <img data-lazy="${p.img}" alt="${p.title}" loading="lazy"/>
+      ${p.isNew?'<span class="p-tag">New</span>':''}
+      <div class="product-overlay">
+        <button class="ovr-btn" onclick="event.stopPropagation();openProduct(${p.id})">Quick View</button>
+        <button class="ovr-btn gold" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+      </div>
+    </div>
+    <p class="p-title">${p.title}</p>
+    <div class="p-meta"><span class="p-price">₹${p.price.toLocaleString('en-IN')}</span><span class="p-size">${p.size} · ${p.style}</span></div>
+  </div>`;
+}
+function renderFeatured(){
+  const fg=document.getElementById('featured-grid');
+  if(fg){fg.innerHTML=products.slice(0,8).map(productCardHTML).join('');lazyImg(fg);}
+  const ig=document.getElementById('insta-grid');
+  if(ig){ig.innerHTML=CONFIG.instaPhotos.map((src,i)=>`<div class="insta-cell"><div class="sk-layer"></div><img data-lazy="${src}" alt="studio" loading="lazy"/></div>`).join('');ig.querySelectorAll('img[data-lazy]').forEach(img=>lazyObs.observe(img));}
+  // Apply mosaic images from CONFIG
+  const mCells=document.querySelectorAll('.gcell');
+  CONFIG.mosaicImages.forEach((m,i)=>{
+    if(mCells[i]){
+      const img=mCells[i].querySelector('img');
+      if(img){img.setAttribute('data-lazy',m.url);img.alt=m.title;}
+      const lbl=mCells[i].querySelector('.g-hover-label span');
+      if(lbl)lbl.textContent=m.title;
+    }
+  });
+  lazyImg(document.body);
+}
+function renderShop(){
+  shopPage=0;filteredProducts=applyFilters(true);
+  const sg = document.getElementById('shop-grid');
+  sg.innerHTML=filteredProducts.slice(0,SHOP_PER_PAGE).map(productCardHTML).join('');
+  lazyImg(sg);
+  document.getElementById('shop-count').textContent=`Showing ${Math.min(SHOP_PER_PAGE,filteredProducts.length)} of ${filteredProducts.length} paintings`;
+  document.getElementById('load-more-wrap').style.display=filteredProducts.length>SHOP_PER_PAGE?'block':'none';
+}
+function loadMore(){
+  shopPage++;const start=shopPage*SHOP_PER_PAGE,end=start+SHOP_PER_PAGE;
+  const lmg=document.getElementById('shop-grid');
+  lmg.innerHTML+=filteredProducts.slice(start,end).map(productCardHTML).join('');
+  lazyImg(lmg);
+  document.getElementById('shop-count').textContent=`Showing ${Math.min(end,filteredProducts.length)} of ${filteredProducts.length} paintings`;
+  if(end>=filteredProducts.length)document.getElementById('load-more-wrap').style.display='none';
+}
+function applyFilters(returnArr){
+  const style=document.getElementById('filter-style')?.value,size=document.getElementById('filter-size')?.value,price=document.getElementById('filter-price')?.value,sort=document.getElementById('filter-sort')?.value;
+  let res=[...products];
+  if(style)res=res.filter(p=>p.style===style);
+  if(size){const s=size.split('(')[1]?.replace(')','');if(s)res=res.filter(p=>p.size===s)}
+  if(price){if(price.includes('Under'))res=res.filter(p=>p.price<5000);else if(price.includes('5,000'))res=res.filter(p=>p.price>=5000&&p.price<=15000);else if(price.includes('15,000'))res=res.filter(p=>p.price>15000&&p.price<=30000);else if(price.includes('Above'))res=res.filter(p=>p.price>30000)}
+  if(sort){if(sort.includes('Low'))res.sort((a,b)=>a.price-b.price);else if(sort.includes('High'))res.sort((a,b)=>b.price-a.price);else if(sort.includes('New'))res.sort((a,b)=>b.id-a.id)}
+  if(returnArr)return res;
+  filteredProducts=res;shopPage=0;
+  document.getElementById('shop-grid').innerHTML=res.slice(0,SHOP_PER_PAGE).map(productCardHTML).join('');
+  document.getElementById('shop-count').textContent=`Showing ${Math.min(SHOP_PER_PAGE,res.length)} of ${res.length} paintings`;
+  document.getElementById('load-more-wrap').style.display=res.length>SHOP_PER_PAGE?'block':'none';
+}
+function openProduct(id){
+  const p=products[id];
+  document.getElementById('detail-content').innerHTML=`
+    <div class="d-img-wrap" style="position:relative"><div class="sk-layer"></div><img data-lazy="${p.img}" alt="${p.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded');this.previousElementSibling&&(this.previousElementSibling.style.display='none')"/></div>
+    <div class="d-info">
+      <p class="d-breadcrumb"><span onclick="showPage('home')">Home</span><span class="sep">/</span><span onclick="showPage('shop')">Shop</span><span class="sep">/</span><span>${p.title}</span></p>
+      <div><span class="d-badge">${p.style}</span><h1 class="d-title">${p.title}</h1><p class="d-price">₹${p.price.toLocaleString('en-IN')}</p></div>
+      <p class="d-desc">${p.description}</p>
+      <div>
+        <p class="sz-label">Canvas Size</p>
+        <div class="sz-btns">${sizes.map((s,i)=>`<button class="sz-btn${s===p.size?' active':''}" onclick="selectSize(this,${p.id},'${s}',${sizePrices[i]})">${s}</button>`).join('')}</div>
+      </div>
+      <div class="action-btns">
+        <button class="btn-full btn-cart" onclick="addToCart(${p.id},selectedSize||'${p.size}');showPage('cart')">Add to Cart</button>
+        <button class="btn-full btn-buy-wht" style="border:1px solid var(--charcoal);padding:15px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:var(--font-body)" onclick="addToCart(${p.id},selectedSize||'${p.size}');showPage('cart')">Buy Now</button>
+        <button class="btn-full btn-wa" onclick="openWhatsApp('Hi Ashish! I am interested in: ${p.title} (${p.size}). Price: ₹${p.price.toLocaleString('en-IN')}')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Inquire on WhatsApp
+        </button>
+      </div>
+      <div class="d-meta"><p>Medium: Acrylic on cotton canvas</p><p>Signed: Yes — certificate of authenticity included</p><p>Shipping: Pan-India · 5-7 business days</p><p>Returns: 7-day return policy</p></div>
+    </div>`;
+  const related=products.filter(q=>q.style===p.style&&q.id!==p.id).slice(0,4);
+  document.getElementById('related-grid').innerHTML=related.map(productCardHTML).join('');
+  showPage('detail');window.selectedSize=p.size;
+}
+function selectSize(el,id,size,price){
+  document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');window.selectedSize=size;
+  document.querySelector('.d-price').textContent=`₹${price.toLocaleString('en-IN')}`;
+}
+function renderCart(){
+  const container=document.getElementById('cart-items-container'),sumRows=document.getElementById('summary-rows'),totalEl=document.getElementById('cart-total');
+  if(cart.length===0){container.innerHTML=`<div class="empty-cart"><p class="empty-t">Your cart is empty</p><p class="empty-s">Browse the gallery and find a piece that speaks to you</p><button class="btn-gold" onclick="showPage('shop')" style="padding:14px 36px">Browse Paintings</button></div>`;sumRows.innerHTML='';totalEl.textContent='₹0';return}
+  container.innerHTML=`<div class="cart-items-list">${cart.map(item=>`<div class="c-item"><div class="c-item-img" style="position:relative"><div class="sk-layer"></div><img data-lazy="${item.img}" alt="${item.title}"/></div><div><p class="c-item-title">${item.title}</p><p class="c-item-meta">Size: ${item.size} · Qty: ${item.qty}</p><button class="remove-btn" onclick="removeFromCart('${item.key}')">Remove</button></div><div class="c-item-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div></div>`).join('')}</div>`;
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  sumRows.innerHTML=cart.map(i=>`<div class="sum-row"><span>${i.title} ×${i.qty}</span><span>₹${(i.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('')+`<div class="sum-row"><span>Shipping</span><span>Free</span></div>`;
+  totalEl.textContent=`₹${sub.toLocaleString('en-IN')}`;
+  lazyImg(container);
+}
+
+// UTILS
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function openWhatsApp(msg){window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`,'_blank')}
+function openInsta(){window.open(`https://instagram.com/${CONFIG.instagramHandle}`,'_blank')}
+function checkout(){showToast('Razorpay checkout — integrate your key to go live!')}
+function submitForm(){showToast('Inquiry sent! Ashish will be in touch shortly.')}
+
+// LAZY IMAGE OBSERVER
+const lazyObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const img = e.target;
+      if(img.dataset.lazy && !img.dataset.loaded){
+        img.dataset.loaded = 1;
+        const t = new Image();
+        t.onload = ()=>{ img.src = img.dataset.lazy; img.classList.add('sloaded'); };
+        t.onerror = ()=>{ img.src = genFallback(img.alt||'Art'); img.classList.add('sloaded'); };
+        t.src = img.dataset.lazy;
+        lazyObs.unobserve(img);
+      }
+    }
+  });
+}, {rootMargin: '200px'});
+
+function lazyImg(el){
+  el.querySelectorAll('img[data-lazy]').forEach(img=>lazyObs.observe(img));
+}
+
+function genFallback(title){
+  const pals=[['#8B4513','#D2691E','#2F1B0E'],['#1B4F72','#2980B9','#0D2B3E'],['#145A32','#27AE60','#0B3621'],['#4A235A','#8E44AD','#2E1842'],['#7B241C','#E74C3C','#4A0E0A'],['#1A5276','#D4AC0D','#0D2B3E'],['#2C3E50','#BDC3C7','#1A252F'],['#6E2F00','#CA6F1E','#3D1A00']];
+  const h = title.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const [c1,c2,bg] = pals[h%pals.length];
+  const id = h%200;
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(
+    `<svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="380" fill="${bg}"/><ellipse cx="${80+id%120}" cy="${100+id%150}" rx="${50+id%70}" ry="${70+id%50}" fill="${c1}" opacity=".7"/><ellipse cx="${200+id%80}" cy="${260+id%80}" rx="${60+id%50}" ry="${40+id%65}" fill="${c2}" opacity=".6"/><path d="M${id%50},${150+id%80} C${100+id%80},${50+id%60} ${200+id%50},${200+id%80} ${280-id%40},${100+id%90}" stroke="${c1}" stroke-width="${10+id%16}" fill="none" opacity=".7"/></svg>`
+  );
+}
+
+// HAMBURGER MENU
+function toggleMenu(){
+  const mm = document.getElementById('mob-menu');
+  const hb = document.getElementById('hamburger');
+  const isOpen = mm.classList.toggle('open');
+  hb.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+// BOTTOM NAV ACTIVE
+function setBn(name){
+  document.querySelectorAll('.bn-btn').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById('bn-'+name);
+  if(el) el.classList.add('active');
+}
+
+// APPLY CONFIG TO STATIC HTML
+function applyConfig(){
+  // Brand name everywhere
+  document.querySelectorAll('[data-cfg="brand"]').forEach(el=>el.textContent=CONFIG.brandName);
+  // Logo: image or text
+  document.querySelectorAll('[data-cfg="logo"]').forEach(el=>{
+    if(CONFIG.logoImg){
+      el.innerHTML=`<img src="${CONFIG.logoImg}" style="height:${CONFIG.logoImgHeight};object-fit:contain;vertical-align:middle;" alt="${CONFIG.brandName}"/>`;
+    } else {
+      el.textContent=CONFIG.brandName;
+    }
+  });
+  // Loader
+  const ldrLogo=document.querySelector('.ldr-logo');if(ldrLogo)ldrLogo.textContent=CONFIG.brandName;
+  // Hero
+  const heEyebrow=document.querySelector('.hero-eyebrow span');if(heEyebrow)heEyebrow.textContent=CONFIG.heroTagline;
+  const heroLines=document.querySelectorAll('.hero-line');
+  if(heroLines[0])heroLines[0].innerHTML=CONFIG.heroTitle1;
+  if(heroLines[1])heroLines[1].innerHTML=`${CONFIG.heroTitle2} <em>${CONFIG.heroTitleHighlight}</em>`;
+  const heroSub=document.querySelector('.hero-sub');if(heroSub)heroSub.textContent=CONFIG.heroSubtext;
+  const heroBadge=document.querySelector('.hero-badge-inner');
+  if(heroBadge)heroBadge.innerHTML=`<strong>${CONFIG.heroStats.split(' ')[0]}</strong> ${CONFIG.heroStats.split(' ').slice(1).join(' ')}`;
+  // Hero bg images
+  const strips=document.querySelectorAll('.hero-bg-strip img');
+  const bgs=[CONFIG.heroBg1,CONFIG.heroBg2,CONFIG.heroBg3];
+  strips.forEach((img,i)=>{if(bgs[i]){img.src=bgs[i];}});
+  // Artist quote
+  document.querySelectorAll('[data-cfg="quote"]').forEach(el=>el.innerHTML=`"${CONFIG.artistQuote}"`);
+  document.querySelectorAll('[data-cfg="artist-name"]').forEach(el=>el.textContent=`— ${CONFIG.artistName}, Abstract Artist`);
+  // About page
+  const aBody=document.querySelectorAll('.about-body');
+  if(aBody[0])aBody[0].textContent=CONFIG.artistBio1;
+  if(aBody[1])aBody[1].textContent=CONFIG.artistBio2;
+  const aPq=document.querySelector('.about-pq');if(aPq)aPq.textContent=`"${CONFIG.artistQuote}"`;
+  const sig=document.querySelector('.as-sig');if(sig)sig.textContent=CONFIG.artistName;
+  const asBody=document.querySelector('.as-body');if(asBody)asBody.textContent=CONFIG.artistBio1;
+  // Stats
+  const statNums=document.querySelectorAll('.as-stat-n');
+  const statDescs=document.querySelectorAll('.as-stat-d');
+  if(statNums[0])statNums[0].textContent=CONFIG.stat1Num;
+  if(statNums[1])statNums[1].textContent=CONFIG.stat2Num;
+  if(statNums[2])statNums[2].textContent=CONFIG.stat3Num;
+  if(statDescs[0])statDescs[0].textContent=CONFIG.stat1Label;
+  if(statDescs[1])statDescs[1].textContent=CONFIG.stat2Label;
+  if(statDescs[2])statDescs[2].textContent=CONFIG.stat3Label;
+  const aStatNums=document.querySelectorAll('.a-num');
+  const aStatDescs=document.querySelectorAll('.a-desc');
+  if(aStatNums[0])aStatNums[0].textContent=CONFIG.stat1Num;
+  if(aStatNums[1])aStatNums[1].textContent=CONFIG.stat2Num;
+  if(aStatNums[2])aStatNums[2].textContent='Pan-India';
+  if(aStatNums[3])aStatNums[3].textContent='Custom';
+  // Contact page
+  const cMethods=document.querySelectorAll('.m-val');
+  if(cMethods[0])cMethods[0].textContent='+' + CONFIG.whatsappNumber;
+  if(cMethods[1])cMethods[1].textContent='@' + CONFIG.instagramHandle;
+  // Artist photo
+  const artistPhotos=document.querySelectorAll('[data-cfg="artist-photo"]');
+  artistPhotos.forEach(img=>img.src=CONFIG.artistPhoto);
+  // Instagram link
+  document.querySelectorAll('[data-cfg="insta-handle"]').forEach(el=>el.textContent=`@${CONFIG.instagramHandle} ↗`);
+  // Footer
+  const fb=document.querySelector('.f-brand');if(fb)fb.textContent=CONFIG.brandName;
+  const ft=document.querySelector('.f-tagline');if(ft)ft.textContent=CONFIG.footerTagline;
+  const fc=document.querySelector('.f-copy');if(fc)fc.textContent=`© ${CONFIG.copyrightYear} ${CONFIG.brandName}. All rights reserved.`;
+  // Marquee
+  const mt=document.querySelector('.marquee-track');
+  if(mt){
+    const items=[...CONFIG.marqueeItems,...CONFIG.marqueeItems].map(txt=>`<span class="m-item"><span class="m-dot"></span>${txt}</span>`).join('');
+    mt.innerHTML=items;
+  }
+  // Title tag
+  document.title=CONFIG.brandName;
+}
+
+// INIT
+applyConfig();
+renderFeatured();
+</script>
+</body>
+</html>
