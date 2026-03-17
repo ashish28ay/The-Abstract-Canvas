@@ -349,6 +349,7 @@ section{padding:96px 8vw}
 .m-val{font-size:14px;font-weight:500}
 .f-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
 .f-input{width:100%;padding:12px 15px;border:1px solid var(--border);background:white;font-size:14px;font-family:var(--font-body);color:var(--charcoal);outline:none;transition:border-color 0.2s;resize:vertical;margin-bottom:14px}
+.f-input.invalid{border-color:#e84040;background:#fff8f8}
 .f-input:focus{border-color:var(--gold)}
 
 /* RELATED */
@@ -470,7 +471,9 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 .mob-cta{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
 /* ── BOTTOM NAV ── */
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;width:100%;height:60px;background:var(--charcoal);z-index:600;border-top:1px solid rgba(255,255,255,.08);padding:0}
-.bn-row{display:flex;gap:0;height:100%;padding:0}
+.bn-row{display:flex;gap:0;height:100%;padding:0;align-items:stretch}
+.bn-spacer{flex:1;}
+.bn-cart-btn{border-left:1px solid rgba(255,255,255,.1);min-width:64px;}
 .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.48);transition:all .2s;font-family:var(--font-body);padding:6px 4px;min-height:48px;-webkit-tap-highlight-color:transparent;gap:5px;text-align:center}
 .bn-btn:active{color:rgba(255,255,255,.8)}
 .bn-btn.active{color:var(--gold)}
@@ -784,13 +787,21 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
       <span class="bn-lbl">Shop</span>
     </button>
-    <button class="bn-btn" id="bn-cart" onclick="showPage('cart')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      <span class="bn-lbl">Cart</span>
-    </button>
     <button class="bn-btn" id="bn-about" onclick="showPage('about')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <span class="bn-lbl">About</span>
+    </button>
+    <button class="bn-btn" id="bn-contact" onclick="showPage('contact')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span class="bn-lbl">Contact</span>
+    </button>
+    <div class="bn-spacer"></div>
+    <button class="bn-btn bn-cart-btn" id="bn-cart" onclick="showPage('cart')">
+      <div style="position:relative;display:inline-flex;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="bn-cart-badge" style="position:absolute;top:-6px;right:-8px;background:var(--gold);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;display:none;">0</span>
+      </div>
+      <span class="bn-lbl">Cart</span>
     </button>
   </div>
 </nav>
@@ -1038,11 +1049,15 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
         <div class="m-icon" style="background:#fef0f7"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg></div>
         <div><p class="m-label">Instagram</p><p class="m-val">@abstractcanvas.ashish</p></div>
       </div>
+      <div class="c-method" onclick="window.location.href='mailto:theabstractcanvas.art@gmail.com'">
+        <div class="m-icon" style="background:#fff3f3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84040" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
+        <div><p class="m-label">Email</p><p class="m-val">theabstractcanvas.art@gmail.com</p></div>
+      </div>
     </div>
     <div>
       <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:22px">Send an Inquiry</p>
       <label class="f-label">Name</label><input class="f-input" type="text" placeholder="Your full name"/>
-      <label class="f-label">Email</label><input class="f-input" type="email" placeholder="your@email.com"/>
+      <label class="f-label">Email</label><input class="f-input" type="email" id="contact-email-input" placeholder="your@email.com" oninput="validateEmailField(this)"/><p id="email-error" style="font-size:11px;color:#e84040;margin-top:-10px;margin-bottom:10px;display:none;">Please enter a valid email address</p>
       <label class="f-label">Subject</label><select class="f-input" style="cursor:pointer"><option>Custom Commission</option><option>General Inquiry</option><option>Order Question</option><option>Collaboration</option></select>
       <label class="f-label" style="margin-top:14px">Message</label>
       <textarea class="f-input" rows="5" placeholder="Tell me about the painting you're looking for..."></textarea>
@@ -1428,7 +1443,12 @@ const instaImgs = CONFIG.instaPhotos;
 
 // CART
 let cart=[],shopPage=0,SHOP_PER_PAGE=12,filteredProducts=[...products];
-function updateCartCount(){document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function updateCartCount(){
+  const total=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cart-count').textContent=total;
+  const badge=document.getElementById('bn-cart-badge');
+  if(badge){badge.textContent=total;badge.style.display=total>0?'flex':'none';}
+}
 function addToCart(id,size){
   const p=products[id];
   const actualSize=size||p.size;
@@ -1453,7 +1473,7 @@ function showPage(name){
   if(navEl)navEl.classList.add('active');
   const mobEl=document.getElementById('mob-'+name);
   if(mobEl)mobEl.classList.add('active');
-  setBn(name==='contact'?'about':name);
+  setBn(name);
   window.scrollTo({top:0,behavior:'smooth'});
   setNavStyle(name==='home');
   if(name==='home')renderFeatured();
@@ -1774,18 +1794,47 @@ function switchTab(btn, panel){
 }
 function selectUpi(el){ document.querySelectorAll('.upi-box').forEach(b=>b.classList.remove('sel')); el.classList.add('sel'); }
 function selectNb(el){ document.querySelectorAll('.nb-option').forEach(b=>b.classList.remove('sel')); el.classList.add('sel'); }
+function validateEmailField(input){
+  const val=input.value.trim();
+  const valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  const errEl=document.getElementById('email-error');
+  if(val===''||valid){
+    input.classList.remove('invalid');
+    if(errEl) errEl.style.display='none';
+  } else {
+    input.classList.add('invalid');
+    if(errEl) errEl.style.display='block';
+  }
+  return valid||val==='';
+}
 function submitForm(){
   const inputs = document.querySelectorAll('#page-contact .f-input');
   const name = inputs[0]?.value?.trim();
-  const email = inputs[1]?.value?.trim();
+  const emailInput = document.getElementById('contact-email-input');
+  const email = emailInput?.value?.trim();
   const subject = inputs[2]?.value;
   const message = inputs[3]?.value?.trim();
   if(!name){showToast('Please enter your name');return;}
+  // Email validation
+  if(email){
+    const valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!valid){
+      emailInput.classList.add('invalid');
+      const errEl=document.getElementById('email-error');
+      if(errEl) errEl.style.display='block';
+      emailInput.focus();
+      showToast('Please enter a valid email address');
+      return;
+    }
+  }
   if(!message){showToast('Please enter a message');return;}
   const waMsg = `Hi Ashish! New inquiry from your website:\n\nName: ${name}\nEmail: ${email||'Not provided'}\nSubject: ${subject}\n\nMessage: ${message}`;
   openWhatsApp(waMsg);
   showToast('Opening WhatsApp to send your inquiry...');
   inputs.forEach(i=>{if(i.tagName!=='SELECT')i.value='';});
+  const errEl=document.getElementById('email-error');
+  if(errEl) errEl.style.display='none';
+  if(emailInput) emailInput.classList.remove('invalid');
 }
 
 // LAZY IMAGE OBSERVER
