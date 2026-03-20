@@ -1,49 +1,59 @@
 <!DOCTYPE html>
 <!--
-=======================================================================
-  🎨 THE ABSTRACT CANVAS — CUSTOMIZABLE WEBSITE
-=======================================================================
+╔══════════════════════════════════════════════════════════════════════╗
+║         🎨 THE ABSTRACT CANVAS — YOUR PERSONAL ART WEBSITE          ║
+║                      by Ashish Yadav                                 ║
+╚══════════════════════════════════════════════════════════════════════╝
 
-  HOW TO CUSTOMIZE THIS WEBSITE
-  ──────────────────────────────
-  Everything you need to change is inside the CONFIG object in the
-  <script> section near the bottom of this file. Search for:
-  
-    "YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE"
-  
-  In the CONFIG block you can change:
-  ✅ Brand name & logo (use your own logo image URL)
-  ✅ Hero text, tagline, subtitle
-  ✅ WhatsApp number
-  ✅ Instagram handle
-  ✅ Artist bio, quote, stats
-  ✅ Your paintings (title, photo, price, style, description)
-  ✅ Canvas size options & their prices
-  ✅ Footer text & copyright
-  ✅ All background & gallery images
+  👋 WELCOME! HOW TO USE THIS FILE
+  ══════════════════════════════════
+  This is your entire website in ONE file. You don't need any coding
+  knowledge to make changes. Everything you'll ever want to edit is
+  clearly marked with comments like this: 👉 EDIT THIS
 
-  HOW TO ADD YOUR OWN PAINTING PHOTOS
-  ─────────────────────────────────────
-  1. Go to https://imgur.com and upload your painting photo
-  2. Right-click the image → "Copy image address"
-  3. Paste the URL into the "img" field of a painting in CONFIG.paintings
+  ──────────────────────────────────────────────────────────────────
+  🔧 WHERE TO MAKE ALL YOUR CHANGES
+  ──────────────────────────────────────────────────────────────────
+  Search for this text in the file (press Ctrl+F in Notepad):
 
-  HOW TO GET A DOMAIN
-  ────────────────────
-  1. Buy a domain at GoDaddy, Hostinger, or Namecheap (e.g. abstractcanvas.in)
-  2. Upload this single HTML file to any web host:
-     • Netlify (free): drag & drop at netlify.com/drop
-     • GitHub Pages (free): push to GitHub and enable Pages
-     • Hostinger / GoDaddy hosting: upload via File Manager
-  3. Link your domain in the hosting dashboard — done!
+      ✏️  YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE
 
-  ADDING LOGO
-  ────────────
-  Set CONFIG.logoImg to your logo image URL.
-  Example: logoImg: "https://i.imgur.com/YOURLOGO.png"
-  Leave logoImg as "" to use text logo (CONFIG.brandName).
+  That section lets you change:
+  ✅ Your brand name
+  ✅ Your logo image
+  ✅ Your WhatsApp number (for receiving orders)
+  ✅ Your Instagram handle
+  ✅ Hero section text (the big text on homepage)
+  ✅ Your artist bio and quote
+  ✅ Your paintings (title, photo URL, price, description)
+  ✅ Canvas size options and their prices
+  ✅ Footer text
 
-=======================================================================
+  ──────────────────────────────────────────────────────────────────
+  🖼️  HOW TO ADD YOUR OWN PAINTING PHOTOS
+  ──────────────────────────────────────────────────────────────────
+  Step 1: Go to https://imgur.com on your browser
+  Step 2: Upload your painting photo
+  Step 3: Right-click the uploaded image → click "Copy image address"
+  Step 4: Paste that URL into the "img:" field of a painting below
+
+  ──────────────────────────────────────────────────────────────────
+  🌐 HOW TO PUT YOUR WEBSITE ONLINE (FREE)
+  ──────────────────────────────────────────────────────────────────
+  Step 1: Go to https://netlify.com/drop
+  Step 2: Drag and drop this HTML file onto that page
+  Step 3: Your website is LIVE! You'll get a free link instantly.
+  Step 4: (Optional) Buy a custom domain like abstractcanvas.in from
+          GoDaddy or Namecheap and connect it in Netlify settings.
+
+  ──────────────────────────────────────────────────────────────────
+  🆘 IF SOMETHING BREAKS
+  ──────────────────────────────────────────────────────────────────
+  • Only edit text between quotation marks " "
+  • Don't delete any commas , or colons :
+  • If unsure, just undo your change (Ctrl+Z)
+
+══════════════════════════════════════════════════════════════════════
 -->
 
 <html lang="en">
@@ -491,10 +501,12 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 .gcell{position:relative}
 .gcell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s,transform .6s ease;z-index:1}
 .gcell img.sloaded{opacity:1}
+.gcell img{opacity:1}
 .gcell:hover img.sloaded{transform:scale(1.06)}
 /* other imgs */
 .insta-cell img,.as-img img,.about-img img{opacity:0;transition:opacity .5s}
 .insta-cell img.sloaded,.as-img img.sloaded,.about-img img.sloaded{opacity:1}
+.as-img img,.about-img img{opacity:1}
 /* toast above bottom nav */
   .toast{bottom:72px!important}
 /* ════ MOBILE ════ */
@@ -738,7 +750,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 
 <nav id="main-nav">
   <div class="nav-inner">
-    <div class="nav-logo light" data-cfg="logo" id="nav-logo" onclick="showPage('home')">Abstract Canvas by Ashish</div>
+    <div class="nav-logo light" data-cfg="logo" id="nav-logo" onclick="showPage('home')"></div>
     <ul class="nav-links">
       <li><a onclick="showPage('home')" id="nav-home" class="light-link active">Home</a></li>
       <li><a onclick="showPage('shop')" id="nav-shop" class="light-link">Shop</a></li>
@@ -811,15 +823,17 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 
   <div class="hero">
     <div class="hero-bg-gallery">
-      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80" loading="eager" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
-      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=80" loading="eager" alt="abstract art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
-      <div class="hero-bg-strip"><img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=80" loading="eager" alt="canvas painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg" loading="eager" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666597/657e4020-5ae8-11ef-bf77-3dc53718b8d0_zkrjvf.jpg" loading="eager" alt="abstract art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666592/66f9a740-7cef-11ef-afbe-e1aeb6fe13a4_d5ieof.jpg" loading="eager" alt="canvas painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-scanlines"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow">
-        <div class="hero-eyebrow-dot"></div>
+      <div class="hero-eyebrow" style="flex-direction:column;align-items:flex-start;">
+      <img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773738185/Untitled_design_page-0001-removebg-preview_c4ype2.png" style="height:130px;object-fit:contain;display:block;margin-bottom:10px;opacity:0;animation:fadeInUp 0.7s 1.0s ease forwards"/>
+      
+        <!-- <div class="hero-eyebrow-dot"></div> -->
         <span>Original Abstract Art · Handcrafted in India</span>
       </div>
       <h1 class="hero-title">
@@ -887,14 +901,14 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   </section>
   <div style="padding:0 8vw 80px" class="reveal">
     <div class="mosaic">
-      <div class="gcell r-tall" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&q=80" alt="painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Ember &amp; Dusk</span></div></div>
-      <div class="gcell r-sq" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80" alt="abstract" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Midnight Bloom</span></div></div>
-      <div class="gcell r-sq" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80" alt="canvas" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Violet Drift</span></div></div>
+      <div class="gcell r-tall" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/4207a4d0-914a-11f0-ad2f-f998bf4eded0_xv19yl.jpg" alt="Ember Drift" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Ember Drift</span></div></div>
+      <div class="gcell r-sq" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666598/812eeee0-3cb1-11f0-85a7-c9285a8dc5b1_dwrclh.jpg" alt="Crimson Reverie" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Crimson Reverie</span></div></div>
+      <div class="gcell r-sq" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666596/231be690-527f-11ef-9fc8-19ccc846e2e9_bxf87w.jpg" alt="Copper & Ash" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Copper &amp; Ash</span></div></div>
     </div>
     <div class="mosaic-row2">
-      <div class="gcell r-tall2" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80" alt="art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Ochre Fields</span></div></div>
-      <div class="gcell r-tall2" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80" alt="artwork" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Cerulean Haze</span></div></div>
-      <div class="gcell r-wide" onclick="showPage('shop')"><img data-lazy="https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=1000&q=80" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/><div class="g-hover-label"><span>Copper Sunset</span></div></div>
+      <div class="gcell r-tall2" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666591/99c3a180-11f5-11f0-b228-457f03ce7753_krkbpw.jpg" alt="Indigo Deep" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Indigo Deep</span></div></div>
+      <div class="gcell r-tall2" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666580/7dfe2040-6919-11ef-ba92-d9b7b7ad3b6c_gvng0n.jpg" alt="Rust Sonata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Rust Sonata</span></div></div>
+      <div class="gcell r-wide" onclick="showPage('shop')"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666574/3df7a2e0-13ab-11f0-b953-6bcda5897d94_kiwmcs.jpg" alt="Burnt Horizon" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/><div class="g-hover-label"><span>Burnt Horizon</span></div></div>
     </div>
   </div>
 
@@ -914,7 +928,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   </div>
 
   <div class="about-split">
-    <div class="as-img"><img data-cfg="artist-photo" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80" loading="lazy" alt="artist at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/></div>
+    <div class="as-img"><img data-cfg="artist-photo" src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1774002641/WhatsApp_Image_2026-03-20_at_4.00.06_PM_imdo1j.jpg" alt="artist at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/></div>
     <div class="as-content">
       <p class="as-label reveal">The Artist</p>
       <h2 class="as-title reveal">Behind the <em>Canvas</em></h2>
@@ -1006,7 +1020,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   </div>
   <div class="about-layout">
     <div class="about-img">
-      <img data-cfg="artist-photo" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80" loading="lazy" alt="Ashish at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')"/>
+      <img data-cfg="artist-photo" src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1774002641/WhatsApp_Image_2026-03-20_at_4.00.06_PM_imdo1j.jpg" alt="Ashish at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s"/>
       <div class="about-caption">Ashish in the Studio, 2024</div>
     </div>
     <div class="about-content">
@@ -1051,7 +1065,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
       </div>
       <div class="c-method" onclick="window.location.href='mailto:theabstractcanvas.art@gmail.com'">
         <div class="m-icon" style="background:#fff3f3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e84040" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
-        <div><p class="m-label">Email</p><p class="m-val">theabstractcanvas.art@gmail.com</p></div>
+        <div><p class="m-label">Email</p><p class="m-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="05716d60646776717764667166646b7364762b647771456268646c692b666a68">[email&#160;protected]</a></p></div>
       </div>
     </div>
     <div>
@@ -1079,7 +1093,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   </div>
   <div class="f-bottom">
     <p class="f-copy">© 2025 Abstract Canvas by Ashish. All rights reserved.</p>
-    <p class="f-copy">Made with intention. Delivered with care.</p>
+    <p class="f-copy" style="cursor:default" ondblclick="openAdminLogin()">Made with intention. Delivered with care.</p>
   </div>
 </footer>
 
@@ -1139,14 +1153,17 @@ if (!isMobile) {
 }
 
 // LOADER
-const bar=document.getElementById('ldr-bar');let prog=0;
-const li=setInterval(()=>{
-  prog+=Math.random()*14+4;
-  if(prog>=100){prog=100;clearInterval(li);setTimeout(()=>{document.getElementById('loader').classList.add('done')},350)}
-  bar.style.width=prog+'%';
-},100);
+// This makes the loading screen disappear quickly when the page opens.
+// Do not edit this section.
+const bar=document.getElementById('ldr-bar');
+if(bar) bar.style.width='100%';
+setTimeout(()=>{ const ldr=document.getElementById('loader'); if(ldr) ldr.classList.add('done'); }, 400);
+setTimeout(()=>{ const ldr=document.getElementById('loader'); if(ldr) ldr.style.display='none'; }, 1200);
 
-// NAV SCROLL
+// ─────────────────────────────────────────────────────────────
+// NAV SCROLL — makes navigation bar change colour on scroll
+// Do not edit this section.
+// ─────────────────────────────────────────────────────────────
 function setNavStyle(isHero){
   const nav=document.getElementById('main-nav');
   const logo=document.getElementById('nav-logo');
@@ -1167,23 +1184,46 @@ const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersect
 function observeReveals(){document.querySelectorAll('.reveal:not(.visible)').forEach(el=>ro.observe(el))}
 observeReveals();
 
-// ============================================================
-// ✏️  YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE
-// ============================================================
+// ╔══════════════════════════════════════════════════════════════╗
+// ║   ✏️  YOUR WEBSITE CONFIG — EDIT EVERYTHING HERE            ║
+// ║   ════════════════════════════════════════════════           ║
+// ║   This is the ONLY section you need to edit.                ║
+// ║   Change the values between the quotation marks " "         ║
+// ║   Do NOT delete commas or colons — they are required!       ║
+// ╚══════════════════════════════════════════════════════════════╝
 
 const CONFIG = {
 
-  // ── BRAND ─────────────────────────────────────────────────
-  // Your brand name shown in nav, loader, footer, page titles
-  brandName: "Abstract Canvas by Ashish",
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🏷️  BRAND NAME                                          │
+  // │  This name appears in the browser tab, footer, and nav. │
+  // │  Change "Abstract Canvas by Ashish" to your brand name. │
+  // └─────────────────────────────────────────────────────────┘
+  brandName: "",
 
-  // Your logo: use either a text logo OR an image URL.
-  // For image logo: set logoImg to your image URL, e.g. "https://yoursite.com/logo.png"
-  // For text logo (default): leave logoImg as "" and just use brandName above
-  logoImg: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773628248/Tac-removebg-preview_wyaat1.png",          // e.g. "https://i.imgur.com/yourlogo.png"
-  logoImgHeight: "195px",// height of the logo image in nav
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🖼️  YOUR LOGO IMAGE                                     │
+  // │  Paste your logo image URL here.                         │
+  // │  HOW TO GET A URL: Upload your logo to imgur.com,        │
+  // │  right-click it, and copy the image address.             │
+  // │  To use TEXT instead of image: delete the URL and        │
+  // │  leave it as:  logoImg: "",                              │
+  // └─────────────────────────────────────────────────────────┘
+  logoImg: "",          // e.g. "https://i.imgur.com/yourlogo.png"
+  // ↑ Logo height on DESKTOP (laptop/computer screen)
+  // Make it bigger by increasing the number e.g. "140px"
+  // Make it smaller by decreasing e.g. "90px"
+  logoImgHeight: "120px", // 👈 CHANGE THIS NUMBER to resize your logo
 
-  // Tagline shown on hero section
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🏠  HOMEPAGE HERO TEXT                                  │
+  // │  This is the big text visitors see first on your site.  │
+  // │  heroTagline  = small text above the big heading        │
+  // │  heroTitle1   = first line of the big heading           │
+  // │  heroTitle2   = second line (before the italic word)    │
+  // │  heroTitleHighlight = the italic golden word            │
+  // │  heroSubtext  = paragraph below the heading             │
+  // └─────────────────────────────────────────────────────────┘
   heroTagline: "Original Abstract Art · Handcrafted in India",
   heroTitle1: "Where emotion",
   heroTitle2: "becomes",
@@ -1191,19 +1231,36 @@ const CONFIG = {
   heroSubtext: "Each painting is an original expression — bold strokes, layered textures, and raw emotion translated into art for your space.",
   heroStats: "150+ original artworks available",
 
-  // Artist quote shown on home + about page
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  👤  ARTIST INFO                                         │
+  // │  artistQuote = the italic quote shown on homepage        │
+  // │  artistName  = your first name shown under the quote     │
+  // │  artistBio1  = first paragraph of your About page bio    │
+  // │  artistBio2  = second paragraph of your About page bio   │
+  // └─────────────────────────────────────────────────────────┘
   artistQuote: "I don't paint what I see. I paint what I feel when I close my eyes.",
-  artistName: "Ashish",
+  artistName: "Ashish Yadav",
   artistBio1: "Ashish is a self-taught abstract artist based in India whose work explores the intersection of emotion, memory, and color. Drawing from everyday moments and inner landscapes, each painting is an act of translation — feelings that resist language finding form in texture and hue.",
   artistBio2: "His practice spans fluid abstracts, bold geometric compositions, and deeply textured works, all created by hand on premium cotton canvas using professional-grade acrylics and mixed media. No two pieces are alike — every brushstroke carries intention.",
 
-  // Artist stats shown on About page + home split section
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  📊  YOUR STATS (shown on About page)                   │
+  // │  Change the numbers and labels to match your work.      │
+  // │  e.g. stat1Num: "200+",  stat1Label: "Paintings Sold"   │
+  // └─────────────────────────────────────────────────────────┘
   stat1Num: "150+", stat1Label: "Original Artworks",
   stat2Num: "7+",   stat2Label: "Years of Practice",
   stat3Num: "∞",    stat3Label: "Emotions Painted",
 
-  // ── CONTACT & SOCIAL ──────────────────────────────────────
-  // WhatsApp number (include country code, no + or spaces)
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  📱  YOUR WHATSAPP & CONTACT INFO                        │
+  // │  whatsappNumber: Your number with country code.          │
+  // │  India numbers start with 91, e.g. "919876543210"        │
+  // │  This is where customers will message you to buy.        │
+  // │                                                           │
+  // │  instagramHandle: Your @handle without the @ symbol      │
+  // │  email: Your email address for the contact form          │
+  // └─────────────────────────────────────────────────────────┘
   whatsappNumber: "919717588424",
 
   // Instagram handle (without @)
@@ -1212,174 +1269,247 @@ const CONFIG = {
   // Email address shown on contact page
   email: "theabstractcanvas.art@gmail.com",
 
-  // ── HERO BACKGROUND IMAGES ────────────────────────────────
-  // Three images shown as background strips on the homepage hero
-  // Replace with your own painting photo URLs
-  heroBg1: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80",
-  heroBg2: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=80",
-  heroBg3: "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=80",
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🌄  HOMEPAGE BACKGROUND IMAGES                          │
+  // │  These 3 images show as background strips on homepage.   │
+  // │  Replace with URLs of your own painting photos.          │
+  // │  HOW: Upload to imgur.com → right-click → copy address   │
+  // └─────────────────────────────────────────────────────────┘
+  heroBg1: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg",
+  heroBg2: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666597/657e4020-5ae8-11ef-bf77-3dc53718b8d0_zkrjvf.jpg",
+  heroBg3: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666592/66f9a740-7cef-11ef-afbe-e1aeb6fe13a4_d5ieof.jpg",
 
-  // Artist photo shown on About page & home split section
-  artistPhoto: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80",
+  // 📸 YOUR PHOTO — shown on the About page
+  // Upload your photo to imgur.com and paste the URL here
+  artistPhoto: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1774002641/WhatsApp_Image_2026-03-20_at_4.00.06_PM_imdo1j.jpg",
 
-  // Gallery mosaic images (6 images shown on home page "From the Studio" section)
-  // Replace with your own painting photos
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🖼️  STUDIO GALLERY (6 images on homepage)               │
+  // │  These show in the "From the Studio" section.            │
+  // │  Replace each URL with your own painting photo URL.      │
+  // │  Keep the format exactly as it is — just change the URL. │
+  // └─────────────────────────────────────────────────────────┘
   mosaicImages: [
-    { url: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&q=80", title: "Ember & Dusk" },
-    { url: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80", title: "Midnight Bloom" },
-    { url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80", title: "Violet Drift" },
-    { url: "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80", title: "Ochre Fields" },
-    { url: "https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80", title: "Cerulean Haze" },
-    { url: "https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=1000&q=80", title: "Copper Sunset" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/4207a4d0-914a-11f0-ad2f-f998bf4eded0_xv19yl.jpg", title: "Ember Drift" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666598/812eeee0-3cb1-11f0-85a7-c9285a8dc5b1_dwrclh.jpg", title: "Crimson Reverie" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666596/231be690-527f-11ef-9fc8-19ccc846e2e9_bxf87w.jpg", title: "Copper & Ash" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666591/99c3a180-11f5-11f0-b228-457f03ce7753_krkbpw.jpg", title: "Indigo Deep" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666580/7dfe2040-6919-11ef-ba92-d9b7b7ad3b6c_gvng0n.jpg", title: "Rust Sonata" },
+    { url: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666574/3df7a2e0-13ab-11f0-b953-6bcda5897d94_kiwmcs.jpg", title: "Burnt Horizon" },
   ],
 
-  // Instagram grid photos (6 photos shown on home page)
+  // 📷 INSTAGRAM GRID PHOTOS (6 photos at bottom of homepage)
+  // Replace these URLs with your painting photos
+  // These are meant to look like your Instagram feed
   instaPhotos: [
-    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&q=80",
-    "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&q=80",
-    "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=400&q=80",
-    "https://images.unsplash.com/photo-1549887534-1541e9326642?w=400&q=80",
-    "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=400&q=80",
-    "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400&q=80",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666596/190e59c0-0f95-11f0-8e98-a9e40342baf2_slyzrl.jpg",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666584/9c331c40-234b-11f0-ac83-270115b329e9_wmzwjt.jpg",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666591/057c6e10-914f-11f0-a4dd-55d5981f53ea_sfkfyx.jpg",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666580/7e4929b0-9e7d-11f0-afda-eb364e1b0221_bdq5vf.jpg",
+    "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666560/b6636080-1238-11f0-896f-3bea01ab1b27_qgfo6e.jpg",
   ],
 
-  // ── PAINTINGS / SHOP PRODUCTS ─────────────────────────────
-  // Add YOUR paintings here. Each entry is one painting.
-  // - title: painting name
-  // - style: category (must match one of the filter options)
-  // - size: default size shown
-  // - price: price in ₹ for the default size
-  // - img: URL to your painting photo
-  // - description: shown on the painting detail page
-  // - isNew: true = shows "New" badge on the card
+  // ╔══════════════════════════════════════════════════════════════╗
+  // ║   🎨  YOUR PAINTINGS — THIS IS YOUR SHOP                    ║
+  // ╚══════════════════════════════════════════════════════════════╝
   //
-  // 💡 HOW TO ADD YOUR OWN PHOTO:
-  //    Upload your painting image to a free host like:
-  //    • https://imgur.com  (upload → copy image link ending in .jpg)
-  //    • https://postimages.org
-  //    • Google Drive (share publicly, use direct link)
-  //    Then paste the URL in the "img" field below.
+  // Each painting below is one product in your shop.
+  // To ADD a new painting: copy one block from { to }, paste it,
+  //   and change the values.
+  // To REMOVE a painting: delete the entire block from { to },
+  //   including the comma after }.
   //
+  // WHAT EACH FIELD MEANS:
+  // ─────────────────────────────────────────────────────────────
+  //  title:       👉 Name of the painting (shown on the card)
+  //  style:       👉 Category — must be one of these exactly:
+  //               "Fluid Abstract" | "Expressive" | "Textured"
+  //               "Minimalist" | "Geometric"
+  //  size:        👉 Default canvas size shown to customer
+  //  price:       👉 Price in ₹ for the default size (just the number)
+  //  img:         👉 URL of your painting photo
+  //               HOW TO GET URL: Upload to https://imgur.com
+  //               → right-click image → "Copy image address"
+  //  description: 👉 Text shown on the painting detail page
+  //  isNew:       👉 true = shows "New" badge, false = no badge
+  // ─────────────────────────────────────────────────────────────
   paintings: [
     {
-      title: "Ember & Dusk",
+      title: "Solar Flare",
       style: "Fluid Abstract",
-      size: '18"×24"',
-      price: 8500,
-      img: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&q=80",
-      description: "A warm explosion of amber and rust — this fluid abstract captures the last light of a summer evening. Layers of paint flow and merge, creating depth and movement across the canvas.",
-      isNew: true
-    },
-    {
-      title: "Midnight Bloom",
-      style: "Expressive",
       size: '24"×36"',
       price: 18000,
-      img: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&q=80",
-      description: "Deep blues and violets bloom from the center of the canvas like flowers opening in darkness. An expressive piece that evolves the longer you look at it.",
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg",
+      description: "Molten gold and burnt sienna explode outward in concentric waves — capturing the raw, blinding energy of a solar burst. This fluid abstract radiates warmth from every angle.",
       isNew: true
     },
     {
-      title: "Verdant Storm",
+      title: "Monsoon Memory",
+      style: "Expressive",
+      size: '18"×24"',
+      price: 12000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg",
+      description: "The smell of first rain on dry earth, translated into paint. Loose, expressive brushwork in slate and indigo evokes the mood of an Indian monsoon afternoon.",
+      isNew: true
+    },
+    {
+      title: "Ember Drift",
+      style: "Fluid Abstract",
+      size: '24"×36"',
+      price: 17500,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/4207a4d0-914a-11f0-ad2f-f998bf4eded0_xv19yl.jpg",
+      description: "Slow-moving currents of amber and rust drift across a dark ground like embers caught in still air. Meditative, warm, and impossible to look away from.",
+      isNew: true
+    },
+    {
+      title: "Desert Bloom",
       style: "Textured",
       size: '24"×36"',
       price: 19500,
-      img: "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=600&q=80",
-      description: "Thick impasto technique brings this stormy green landscape to life. Palette knife and brush work in tandem — the texture catches light and shifts through the day.",
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/4212d2e0-920f-11f0-ab9f-937410c86c2c_ebmsvr.jpg",
+      description: "Rough impasto layers in terracotta and cream capture the unexpected beauty of flowers pushing through cracked desert earth. Textured, bold, and alive.",
       isNew: false
     },
     {
-      title: "Violet Drift",
+      title: "Crimson Reverie",
+      style: "Expressive",
+      size: '18"×24"',
+      price: 11000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666598/812eeee0-3cb1-11f0-85a7-c9285a8dc5b1_dwrclh.jpg",
+      description: "A passionate sweep of deep crimson and rose — painted in a single breath. This expressive piece holds the intensity of a feeling that words cannot carry.",
+      isNew: false
+    },
+    {
+      title: "Golden Hour",
+      style: "Fluid Abstract",
+      size: '36"×48"',
+      price: 38000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666597/657e4020-5ae8-11ef-bf77-3dc53718b8d0_zkrjvf.jpg",
+      description: "That fleeting window of light just before sunset — liquid gold poured across the canvas in long, unhurried strokes. This large-format piece transforms any wall into a window.",
+      isNew: false
+    },
+    {
+      title: "Midnight Passage",
       style: "Minimalist",
       size: '18"×24"',
       price: 9500,
-      img: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&q=80",
-      description: "A single sweep of violet against an airy white ground. Minimal, contemplative, and deeply calming — this piece breathes.",
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666596/190e59c0-0f95-11f0-8e98-a9e40342baf2_slyzrl.jpg",
+      description: "A single luminous line cuts through deep midnight blue — silence made visible. This minimalist work rewards stillness and contemplation.",
       isNew: false
     },
     {
-      title: "Crimson Tide",
-      style: "Fluid Abstract",
-      size: '36"×48"',
-      price: 35000,
-      img: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&q=80",
-      description: "Bold crimson waves sweep across a dark canvas in this large-format statement piece. Painted in a single session — the energy is raw and unfiltered.",
-      isNew: false
-    },
-    {
-      title: "Ochre Fields",
+      title: "Copper & Ash",
       style: "Geometric",
-      size: '18"×24"',
-      price: 10000,
-      img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&q=80",
-      description: "Geometric fields of ochre and gold divide the canvas into a landscape of warmth. Inspired by aerial views of Indian farmland at harvest time.",
+      size: '24"×36"',
+      price: 16000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666596/231be690-527f-11ef-9fc8-19ccc846e2e9_bxf87w.jpg",
+      description: "Geometric planes of burnished copper and cool ash divide the canvas with quiet authority. Inspired by the old havelis of Rajasthan — structured, timeless, regal.",
       isNew: false
     },
     {
-      title: "Grey Matter",
+      title: "Smoke & Saffron",
+      style: "Fluid Abstract",
+      size: '24"×36"',
+      price: 20000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666592/66f9a740-7cef-11ef-afbe-e1aeb6fe13a4_d5ieof.jpg",
+      description: "Wisps of smoke curl through a saffron ground in this hypnotic fluid abstract. Each viewing reveals new movement hidden within the layers.",
+      isNew: false
+    },
+    {
+      title: "Indigo Deep",
+      style: "Minimalist",
+      size: '18"×24"',
+      price: 10500,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666591/99c3a180-11f5-11f0-b228-457f03ce7753_krkbpw.jpg",
+      description: "An ocean of indigo with barely-there variations in depth and tone. This minimalist piece brings an extraordinary sense of calm to any interior.",
+      isNew: false
+    },
+    {
+      title: "Horizon Fire",
+      style: "Expressive",
+      size: '36"×48"',
+      price: 42000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666591/057c6e10-914f-11f0-a4dd-55d5981f53ea_sfkfyx.jpg",
+      description: "The horizon at its most dramatic — a sky in full flame, painted with bold, gestural strokes that carry the physical energy of the moment. A commanding statement piece.",
+      isNew: false
+    },
+    {
+      title: "Clay & Rain",
+      style: "Textured",
+      size: '24"×36"',
+      price: 22000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666586/51e30270-9148-11f0-a7a1-b927d82cba0d_njgw6b.jpg",
+      description: "Thick, earthy clay tones broken open by streaks of rain — this heavily textured work celebrates the meeting of soil and water. Touch it and feel the story.",
+      isNew: false
+    },
+    {
+      title: "Stillwater",
       style: "Minimalist",
       size: '12"×16"',
-      price: 4500,
-      img: "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&q=80",
-      description: "A study in grey — from the palest silver to deep charcoal. This intimate small-format piece explores the full spectrum of a single color.",
+      price: 6500,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666584/9c331c40-234b-11f0-ac83-270115b329e9_wmzwjt.jpg",
+      description: "Like a lake at dawn — perfectly still, perfectly clear. This intimate minimalist piece is a pocket of peace for any space that needs it.",
       isNew: false
     },
     {
-      title: "Amber Dreams",
-      style: "Expressive",
+      title: "Rust Sonata",
+      style: "Geometric",
+      size: '18"×24"',
+      price: 13500,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666580/7dfe2040-6919-11ef-ba92-d9b7b7ad3b6c_gvng0n.jpg",
+      description: "Geometric rhythm in rust, ochre, and burnt orange — like a musical composition rendered in shape and colour. Each block holds its note in perfect harmony.",
+      isNew: false
+    },
+    {
+      title: "Blush Storm",
+      style: "Fluid Abstract",
       size: '24"×36"',
       price: 21000,
-      img: "https://images.unsplash.com/photo-1570213489059-0aac6626cade?w=600&q=80",
-      description: "Warm amber and honey tones swirl through this dreamlike composition. Painted during golden hour, the light of that moment lives in every stroke.",
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666580/7e4929b0-9e7d-11f0-afda-eb364e1b0221_bdq5vf.jpg",
+      description: "Soft blush collides with storm-grey in this fluid work of unexpected tension. Delicate yet powerful — it tells the story of gentleness meeting force.",
       isNew: false
     },
     {
-      title: "Forest Echo",
-      style: "Textured",
-      size: '36"×48"',
-      price: 38000,
-      img: "https://images.unsplash.com/photo-1504095197101-5cc9cfe52f8a?w=600&q=80",
-      description: "Deep greens and shadows echo the feeling of standing inside a dense forest. Heavy texture creates a surface that changes with every viewing angle.",
-      isNew: false
-    },
-    {
-      title: "Cerulean Haze",
-      style: "Fluid Abstract",
-      size: '18"×24"',
-      price: 9000,
-      img: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=600&q=80",
-      description: "Blue on blue on blue — this fluid piece is a meditation on one colour. Cerulean, cobalt, and teal blend in soft, cloudlike formations.",
-      isNew: false
-    },
-    {
-      title: "Rust & Gold",
-      style: "Geometric",
-      size: '24"×36"',
-      price: 17000,
-      img: "https://images.unsplash.com/photo-1551913902-c92207136625?w=600&q=80",
-      description: "Sharp geometric forms in rust and gold reference the ancient architecture of India — bold, structured, and enduring.",
-      isNew: false
-    },
-    {
-      title: "Copper Sunset",
+      title: "Burnt Horizon",
       style: "Expressive",
       size: '36"×48"',
-      price: 40000,
-      img: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=600&q=80",
-      description: "The largest work in the collection — a copper and burnished orange sunset spreads across the full canvas. A commanding presence in any room.",
+      price: 45000,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666574/3df7a2e0-13ab-11f0-b953-6bcda5897d94_kiwmcs.jpg",
+      description: "This large expressive canvas burns from the inside out — deep umber and smouldering orange meet at a fierce horizon line. Raw energy, refined onto canvas.",
+      isNew: false
+    },
+    {
+      title: "Ochre Silence",
+      style: "Minimalist",
+      size: '18"×24"',
+      price: 11500,
+      img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666560/b6636080-1238-11f0-896f-3bea01ab1b27_qgfo6e.jpg",
+      description: "A quiet field of warm ochre interrupted only by shadow — this minimalist piece speaks in whispers. The kind of painting that grows more beautiful the longer you live with it.",
       isNew: false
     },
   ],
 
-  // ── CANVAS SIZE OPTIONS & PRICES ─────────────────────────
-  // These are the size options shown on the painting detail page
-  // Each customer can pick a size — prices update automatically
-  // You can change the sizes and prices to match what you offer
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  📐  CANVAS SIZE OPTIONS & PRICES                        │
+  // │  Customers can pick any of these sizes when ordering.    │
+  // │  Prices auto-adjust based on the size selected.          │
+  // │                                                           │
+  // │  sizes:      List of size options shown to customer       │
+  // │  sizePrices: Price in ₹ for each size (same order)       │
+  // │                                                           │
+  // │  ⚠️  Keep the number of sizes and prices equal!           │
+  // │  e.g. 4 sizes → 4 prices                                  │
+  // └─────────────────────────────────────────────────────────┘
   sizes: ['12"×16"', '18"×24"', '24"×36"', '36"×48"'],
   sizePrices: [4000, 9000, 18000, 35000],
 
-  // ── MARQUEE TEXT ─────────────────────────────────────────
-  // Text items that scroll across the bottom of the hero
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  📜  SCROLLING TEXT STRIP                                │
+  // │  These words scroll across the screen below the hero.   │
+  // │  Add or remove items as you like.                        │
+  // │  Keep each item in quotes with a comma after it.         │
+  // └─────────────────────────────────────────────────────────┘
   marqueeItems: [
     "Original Paintings",
     "Acrylic on Canvas",
@@ -1390,15 +1520,22 @@ const CONFIG = {
     "Hand Signed",
   ],
 
-  // ── FOOTER ───────────────────────────────────────────────
+  // ┌─────────────────────────────────────────────────────────┐
+  // │  🦶  FOOTER TEXT (bottom of every page)                  │
+  // │  footerTagline = the description paragraph in footer     │
+  // │  copyrightYear = the year shown in © copyright notice   │
+  // └─────────────────────────────────────────────────────────┘
   footerTagline: "Original abstract paintings handcrafted in India. Each piece is a singular expression of emotion, texture, and color — made to transform your space.",
   copyrightYear: "2025",
 
 };
 
-// ============================================================
-// END OF CONFIG — do not edit below unless you know JS
-// ============================================================
+// ╔══════════════════════════════════════════════════════════════╗
+// ║   ⛔  END OF CONFIG                                          ║
+// ║   DO NOT EDIT ANYTHING BELOW THIS LINE                      ║
+// ║   The code below makes your website work.                   ║
+// ║   Changing it may break your website.                       ║
+// ╚══════════════════════════════════════════════════════════════╝
 
 // Apply config to DOM elements that are static HTML
 document.addEventListener('DOMContentLoaded', () => {
@@ -1414,17 +1551,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // (handled via openWhatsApp and openInsta functions using CONFIG values)
 });
 
-// Build products array from CONFIG.paintings
-const products = CONFIG.paintings.map((p, i) => ({
-  id: i,
-  title: p.title,
-  style: p.style,
-  size: p.size,
-  price: p.price,
-  img: p.img,
-  description: p.description,
-  isNew: p.isNew || false
-}));
+// Build products array — checks localStorage first for admin edits
+function buildProducts(paintingsArr) {
+  return paintingsArr.map((p, i) => ({
+    id: i,
+    title: p.title,
+    style: p.style,
+    size: p.size,
+    price: p.price,
+    img: p.img,
+    description: p.description,
+    isNew: p.isNew || false
+  }));
+}
+
+// Load from localStorage if admin has saved changes, else use CONFIG
+let _savedPaintings = null;
+try {
+  const _raw = localStorage.getItem('tac_paintings');
+  if (_raw) _savedPaintings = JSON.parse(_raw);
+} catch(e) {}
+
+let paintings = _savedPaintings ? _savedPaintings : JSON.parse(JSON.stringify(CONFIG.paintings));
+let products = buildProducts(paintings);
 
 // Sizes
 const sizes = CONFIG.sizes;
@@ -1441,7 +1590,10 @@ function getPaintingSizePrices(basePrice, baseSizeLabel) {
 }
 const instaImgs = CONFIG.instaPhotos;
 
-// CART
+// ─────────────────────────────────────────────────────────────
+// CART — handles adding/removing items and showing cart count
+// Do not edit this section.
+// ─────────────────────────────────────────────────────────────
 let cart=[],shopPage=0,SHOP_PER_PAGE=12,filteredProducts=[...products];
 function updateCartCount(){
   const total=cart.reduce((s,i)=>s+i.qty,0);
@@ -1988,14 +2140,395 @@ window.addEventListener('DOMContentLoaded',()=>{
   const hash = window.location.hash.slice(1);
   if(hash && hash.startsWith('detail/')){
     const productId = parseInt(hash.split('/')[1]);
-    if(!isNaN(productId)) openProduct(productId);
-  } else if(hash){
-    showPage(hash);
-  } else {
-    // Set initial state
-    history.replaceState({page:'home'},'Home',window.location.pathname+'#home');
+    if(productId >= 0 && productId < products.length){
+      showPage('home');
+      setTimeout(()=>openProduct(productId), 300);
+    }
   }
 });
 </script>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 🔒 ADMIN PANEL — Password Protected                 -->
+<!-- To open: Double-click "Made with intention" in footer -->
+<!-- ═══════════════════════════════════════════════════ -->
+
+<style>
+/* ── ADMIN STYLES ── */
+.adm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.adm-overlay.open{display:flex}
+
+/* Login box */
+.adm-login{background:#1a1a17;border:1px solid #2e2e2a;padding:40px;width:100%;max-width:380px;text-align:center}
+.adm-login-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:#faf9f7;margin-bottom:6px;font-weight:300}
+.adm-login-sub{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#6b6a65;margin-bottom:28px}
+.adm-pw-wrap{position:relative;margin-bottom:16px}
+.adm-pw{width:100%;background:#0f0f0d;border:1px solid #2e2e2a;color:#e8e4dd;padding:12px 40px 12px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s}
+.adm-pw:focus{border-color:#b89a6a}
+.adm-pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#6b6a65;cursor:pointer;font-size:16px;padding:2px}
+.adm-login-btn{width:100%;padding:12px;background:#b89a6a;color:#0f0f0d;border:none;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background 0.2s}
+.adm-login-btn:hover{background:#d4b896}
+.adm-err{color:#e05555;font-size:12px;margin-bottom:12px;display:none}
+.adm-cancel{background:none;border:none;color:#6b6a65;font-size:11px;cursor:pointer;margin-top:14px;font-family:'DM Sans',sans-serif;letter-spacing:0.08em;text-transform:uppercase}
+.adm-cancel:hover{color:#e8e4dd}
+
+/* Admin panel */
+.adm-panel{background:#0f0f0d;width:100%;max-width:1100px;max-height:92vh;display:flex;flex-direction:column;border:1px solid #2e2e2a}
+.adm-head{background:#1a1a17;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2e2e2a;flex-shrink:0}
+.adm-head-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:#b89a6a;font-weight:400}
+.adm-head-title span{color:#6b6a65;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;margin-left:10px}
+.adm-head-actions{display:flex;gap:8px}
+.adm-btn{padding:8px 18px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;font-weight:500;transition:all 0.2s}
+.adm-btn-gold{background:#b89a6a;color:#0f0f0d}
+.adm-btn-gold:hover{background:#d4b896}
+.adm-btn-outline{background:transparent;color:#e8e4dd;border:1px solid #2e2e2a}
+.adm-btn-outline:hover{border-color:#b89a6a;color:#b89a6a}
+.adm-btn-red{background:transparent;color:#e05555;border:1px solid rgba(224,85,85,0.25);padding:5px 12px;font-size:9px}
+.adm-btn-red:hover{background:rgba(224,85,85,0.1)}
+.adm-btn-sm{padding:5px 12px;font-size:9px}
+
+.adm-body{display:grid;grid-template-columns:1fr 360px;flex:1;overflow:hidden}
+.adm-list{overflow-y:auto;padding:20px;border-right:1px solid #2e2e2a}
+.adm-list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.adm-list-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#faf9f7;font-weight:300}
+.adm-count{background:#1a1a17;color:#6b6a65;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #2e2e2a}
+
+.adm-row{background:#1a1a17;border:1px solid #2e2e2a;display:grid;grid-template-columns:60px 1fr auto;gap:0;cursor:pointer;transition:border-color 0.2s;margin-bottom:8px}
+.adm-row:hover{border-color:#b89a6a}
+.adm-row.adm-selected{border-color:#b89a6a;background:#222220}
+.adm-thumb{width:60px;height:60px;object-fit:cover;display:block}
+.adm-thumb-ph{width:60px;height:60px;background:#222220;display:flex;align-items:center;justify-content:center;color:#6b6a65;font-size:18px}
+.adm-row-info{padding:10px 14px;min-width:0}
+.adm-row-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:#faf9f7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.adm-row-meta{font-size:10px;color:#6b6a65;letter-spacing:0.05em}
+.adm-row-price{color:#b89a6a;font-size:11px;font-weight:500}
+.adm-badge-new{background:#b89a6a;color:#0f0f0d;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 6px;font-weight:700;vertical-align:middle}
+.adm-row-btns{padding:10px 10px;display:flex;flex-direction:column;gap:5px;justify-content:center}
+
+.adm-add-row{border:1px dashed #2e2e2a;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#6b6a65;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;margin-top:4px}
+.adm-add-row:hover{border-color:#b89a6a;color:#b89a6a}
+
+/* Edit form */
+.adm-form{overflow-y:auto;padding:20px;background:#1a1a17}
+.adm-form-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf9f7;margin-bottom:4px;font-weight:300}
+.adm-form-sub{font-size:10px;color:#6b6a65;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px}
+.adm-preview{width:100%;height:150px;object-fit:cover;display:block;background:#0f0f0d;margin-bottom:16px}
+.adm-preview-ph{width:100%;height:150px;background:#0f0f0d;display:flex;align-items:center;justify-content:center;color:#6b6a65;margin-bottom:16px;font-size:12px}
+.adm-fg{margin-bottom:13px}
+.adm-lbl{display:block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#6b6a65;margin-bottom:6px}
+.adm-inp{width:100%;background:#0f0f0d;border:1px solid #2e2e2a;color:#e8e4dd;padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s}
+.adm-inp:focus{border-color:#b89a6a}
+.adm-ta{resize:vertical;min-height:80px;line-height:1.6}
+.adm-sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6a65' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}
+.adm-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.adm-toggle-wrap{display:flex;align-items:center;gap:10px;padding:9px 11px;background:#0f0f0d;border:1px solid #2e2e2a}
+.adm-toggle{position:relative;width:38px;height:20px;flex-shrink:0}
+.adm-toggle input{opacity:0;width:0;height:0}
+.adm-tslider{position:absolute;inset:0;background:#2e2e2a;cursor:pointer;transition:0.3s;border-radius:20px}
+.adm-tslider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#6b6a65;transition:0.3s;border-radius:50%}
+.adm-toggle input:checked + .adm-tslider{background:#b89a6a}
+.adm-toggle input:checked + .adm-tslider:before{transform:translateX(18px);background:#0f0f0d}
+.adm-tlbl{font-size:11px;color:#e8e4dd}
+.adm-form-actions{display:flex;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid #2e2e2a}
+.adm-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6b6a65;text-align:center;gap:10px;padding:30px}
+
+.adm-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a17;border:1px solid #b89a6a;color:#e8e4dd;padding:10px 20px;font-size:12px;letter-spacing:0.05em;z-index:9999;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+.adm-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Saved indicator */
+.adm-saved-dot{width:8px;height:8px;border-radius:50%;background:#5aad7a;display:inline-block;margin-left:8px;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+</style>
+
+<!-- LOGIN OVERLAY -->
+<div class="adm-overlay" id="adm-login-overlay">
+  <div class="adm-login">
+    <div class="adm-login-title">Admin Access</div>
+    <div class="adm-login-sub">The Abstract Canvas</div>
+    <div class="adm-pw-wrap">
+      <input class="adm-pw" type="password" id="adm-pw-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkAdminPw()"/>
+      <button class="adm-pw-eye" onclick="togglePwVis()" id="adm-eye-btn">👁</button>
+    </div>
+    <div class="adm-err" id="adm-err">❌ Wrong password. Try again.</div>
+    <button class="adm-login-btn" onclick="checkAdminPw()">Enter Admin Panel</button>
+    <br/>
+    <button class="adm-cancel" onclick="closeAdminLogin()">Cancel</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL OVERLAY -->
+<div class="adm-overlay" id="adm-panel-overlay">
+  <div class="adm-panel">
+    <div class="adm-head">
+      <div class="adm-head-title">
+        The Abstract Canvas <span>Admin Panel <span id="adm-saved-indicator" style="display:none"><span class="adm-saved-dot"></span> Saved</span></span>
+      </div>
+      <div class="adm-head-actions">
+        <button class="adm-btn adm-btn-outline" onclick="resetToDefault()">↺ Reset to Default</button>
+        <button class="adm-btn adm-btn-gold" onclick="saveAllAndClose()">✓ Save & Close</button>
+      </div>
+    </div>
+    <div class="adm-body">
+      <div class="adm-list" id="adm-list">
+        <div class="adm-list-header">
+          <div class="adm-list-title">All Paintings</div>
+          <span class="adm-count" id="adm-count">0 paintings</span>
+        </div>
+        <div id="adm-rows"></div>
+        <div class="adm-add-row" onclick="admAddNew()">
+          <span style="font-size:16px">+</span> Add New Painting
+        </div>
+      </div>
+      <div class="adm-form" id="adm-form">
+        <div class="adm-empty">
+          <div style="font-size:36px;opacity:0.3">🎨</div>
+          <div style="font-size:12px">Select a painting to edit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="adm-toast" id="adm-toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// 🔒 ADMIN PANEL — CHANGE PASSWORD HERE ↓
+const ADMIN_PASSWORD = "Ashish@9494";
+// ═══════════════════════════════════════════════
+
+const ADMIN_STYLES = ["Fluid Abstract","Expressive","Textured","Minimalist","Geometric"];
+const ADMIN_SIZES  = ['12"×16"','18"×24"','24"×36"','36"×48"'];
+let admSelectedIdx = null;
+
+// Working copy of paintings for admin session
+let admPaintings = [];
+
+// ── LOGIN ──
+function openAdminLogin() {
+  document.getElementById('adm-login-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('adm-pw-input').focus(), 100);
+}
+function closeAdminLogin() {
+  document.getElementById('adm-login-overlay').classList.remove('open');
+  document.getElementById('adm-pw-input').value = '';
+  document.getElementById('adm-err').style.display = 'none';
+}
+function togglePwVis() {
+  const inp = document.getElementById('adm-pw-input');
+  const btn = document.getElementById('adm-eye-btn');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+function checkAdminPw() {
+  const val = document.getElementById('adm-pw-input').value;
+  if (val === ADMIN_PASSWORD) {
+    closeAdminLogin();
+    openAdminPanel();
+  } else {
+    document.getElementById('adm-err').style.display = 'block';
+    document.getElementById('adm-pw-input').value = '';
+    document.getElementById('adm-pw-input').focus();
+  }
+}
+
+// ── OPEN PANEL ──
+function openAdminPanel() {
+  // Deep copy current paintings for editing
+  admPaintings = JSON.parse(JSON.stringify(paintings));
+  admSelectedIdx = null;
+  document.getElementById('adm-panel-overlay').classList.add('open');
+  admRenderList();
+}
+
+// ── RENDER LIST ──
+function admRenderList() {
+  document.getElementById('adm-count').textContent = admPaintings.length + ' paintings';
+  document.getElementById('adm-rows').innerHTML = admPaintings.map((p, i) => `
+    <div class="adm-row ${admSelectedIdx === i ? 'adm-selected' : ''}" onclick="admSelect(${i})">
+      ${p.img
+        ? `<img class="adm-thumb" src="${p.img}" onerror="this.style.display='none'" alt="${admEscH(p.title)}"/>`
+        : `<div class="adm-thumb-ph">🖼</div>`}
+      <div class="adm-row-info">
+        <div class="adm-row-title">${admEscH(p.title)} ${p.isNew ? '<span class="adm-badge-new">New</span>' : ''}</div>
+        <div class="adm-row-meta">${p.style} · ${p.size} · <span class="adm-row-price">₹${Number(p.price).toLocaleString('en-IN')}</span></div>
+      </div>
+      <div class="adm-row-btns">
+        <button class="adm-btn adm-btn-red" onclick="event.stopPropagation();admDelete(${i})">Delete</button>
+        <button class="adm-btn adm-btn-gold adm-btn-sm" onclick="event.stopPropagation();admSelect(${i})">Edit</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SELECT ──
+function admSelect(i) {
+  if (admSelectedIdx !== null && admSelectedIdx !== i) admSaveForm(admSelectedIdx);
+  admSelectedIdx = i;
+  admRenderList();
+  admRenderForm(i);
+}
+
+// ── RENDER FORM ──
+function admRenderForm(i) {
+  const p = admPaintings[i];
+  document.getElementById('adm-form').innerHTML = `
+    <div class="adm-form-title">Edit Painting</div>
+    <div class="adm-form-sub">Painting ${i+1} of ${admPaintings.length}</div>
+    ${p.img
+      ? `<img class="adm-preview" id="adm-prev" src="${admEscH(p.img)}" alt="preview"/>`
+      : `<div class="adm-preview-ph" id="adm-prev">Image URL daalo</div>`}
+    <div class="adm-fg">
+      <label class="adm-lbl">Painting Title</label>
+      <input class="adm-inp" id="af-title" value="${admEscH(p.title)}" placeholder="e.g. Solar Flare"/>
+    </div>
+    <div class="adm-fg">
+      <label class="adm-lbl">Image URL (Cloudinary / Imgur)</label>
+      <input class="adm-inp" id="af-img" value="${admEscH(p.img)}" placeholder="https://..." oninput="admUpdatePreview(this.value)"/>
+    </div>
+    <div class="adm-row2">
+      <div class="adm-fg">
+        <label class="adm-lbl">Style</label>
+        <select class="adm-inp adm-sel" id="af-style">
+          ${ADMIN_STYLES.map(s=>`<option ${s===p.style?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="adm-fg">
+        <label class="adm-lbl">Default Size</label>
+        <select class="adm-inp adm-sel" id="af-size">
+          ${ADMIN_SIZES.map(s=>`<option ${s===p.size?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="adm-fg">
+      <label class="adm-lbl">Price (₹)</label>
+      <input class="adm-inp" id="af-price" type="number" value="${p.price}" placeholder="18000"/>
+    </div>
+    <div class="adm-fg">
+      <label class="adm-lbl">Description</label>
+      <textarea class="adm-inp adm-ta" id="af-desc">${admEscH(p.description)}</textarea>
+    </div>
+    <div class="adm-fg">
+      <div class="adm-toggle-wrap">
+        <label class="adm-toggle">
+          <input type="checkbox" id="af-isnew" ${p.isNew?'checked':''}>
+          <span class="adm-tslider"></span>
+        </label>
+        <span class="adm-tlbl">Show "New" badge</span>
+      </div>
+    </div>
+    <div class="adm-form-actions">
+      <button class="adm-btn adm-btn-gold" style="flex:1" onclick="admSaveForm(${i});admShowToast('✓ Saved!')">✓ Save</button>
+      <button class="adm-btn adm-btn-red" onclick="admDelete(${i})">Delete</button>
+    </div>
+  `;
+}
+
+function admUpdatePreview(url) {
+  const el = document.getElementById('adm-prev');
+  if (!el) return;
+  if (url && url.startsWith('http')) {
+    el.outerHTML = `<img class="adm-preview" id="adm-prev" src="${url}" alt="preview"/>`;
+  }
+}
+
+// ── SAVE FORM to admPaintings ──
+function admSaveForm(i) {
+  if (!document.getElementById('af-title')) return;
+  admPaintings[i] = {
+    ...admPaintings[i],
+    title:       document.getElementById('af-title')?.value.trim() || admPaintings[i].title,
+    img:         document.getElementById('af-img')?.value.trim() || '',
+    style:       document.getElementById('af-style')?.value || admPaintings[i].style,
+    size:        document.getElementById('af-size')?.value || admPaintings[i].size,
+    price:       parseInt(document.getElementById('af-price')?.value) || 0,
+    description: document.getElementById('af-desc')?.value.trim() || '',
+    isNew:       document.getElementById('af-isnew')?.checked || false,
+  };
+}
+
+// ── DELETE ──
+function admDelete(i) {
+  if (!confirm(`"${admPaintings[i].title}" delete karna chahte hain?`)) return;
+  const name = admPaintings[i].title;
+  admPaintings.splice(i, 1);
+  if (admSelectedIdx === i) {
+    admSelectedIdx = null;
+    document.getElementById('adm-form').innerHTML = '<div class="adm-empty"><div style="font-size:36px;opacity:0.3">🎨</div><div style="font-size:12px">Select a painting to edit</div></div>';
+  } else if (admSelectedIdx > i) admSelectedIdx--;
+  admRenderList();
+  admShowToast('🗑 "' + name + '" delete ho gaya');
+}
+
+// ── ADD NEW ──
+function admAddNew() {
+  if (admSelectedIdx !== null) admSaveForm(admSelectedIdx);
+  admPaintings.push({ title:"New Painting", style:"Fluid Abstract", size:'18"×24"', price:10000, img:"", description:"", isNew:true });
+  admSelectedIdx = admPaintings.length - 1;
+  admRenderList();
+  admRenderForm(admSelectedIdx);
+  admShowToast('+ Naya painting add kiya!');
+  setTimeout(()=>document.getElementById('adm-rows').lastElementChild?.previousElementSibling?.scrollIntoView({behavior:'smooth'}),100);
+}
+
+// ── SAVE ALL & APPLY TO WEBSITE ──
+function saveAllAndClose() {
+  if (admSelectedIdx !== null) admSaveForm(admSelectedIdx);
+
+  // Save to localStorage
+  try {
+    localStorage.setItem('tac_paintings', JSON.stringify(admPaintings));
+  } catch(e) { alert('Save error: ' + e.message); return; }
+
+  // Apply live to website immediately — no reload needed
+  paintings = JSON.parse(JSON.stringify(admPaintings));
+
+  // Rebuild products array with new ids
+  products.length = 0;
+  admPaintings.forEach((p, i) => {
+    products.push({ id:i, title:p.title, style:p.style, size:p.size, price:p.price, img:p.img, description:p.description, isNew:p.isNew||false });
+  });
+
+  // Re-render all sections
+  filteredProducts = [...products];
+  try { renderFeatured(); } catch(e){}
+  try { renderShop(); } catch(e){}
+
+  // Show saved indicator
+  document.getElementById('adm-saved-indicator').style.display = 'inline';
+
+  // Close panel
+  setTimeout(()=>{
+    document.getElementById('adm-panel-overlay').classList.remove('open');
+    admShowToast('✅ Changes save ho gaye — website update ho gayi!');
+  }, 400);
+}
+
+// ── RESET ──
+function resetToDefault() {
+  if (!confirm('Saari admin changes hata ke original paintings wapas laana chahte hain?')) return;
+  localStorage.removeItem('tac_paintings');
+  paintings = JSON.parse(JSON.stringify(CONFIG.paintings));
+  products.length = 0;
+  CONFIG.paintings.forEach((p,i)=>products.push({id:i,title:p.title,style:p.style,size:p.size,price:p.price,img:p.img,description:p.description,isNew:p.isNew||false}));
+  filteredProducts=[...products];
+  try{renderFeatured();}catch(e){}
+  try{renderShop();}catch(e){}
+  document.getElementById('adm-panel-overlay').classList.remove('open');
+  admShowToast('↺ Default paintings restore ho gaye');
+}
+
+// ── TOAST ──
+function admShowToast(msg) {
+  const t = document.getElementById('adm-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ── HELPERS ──
+function admEscH(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+
 </body>
 </html>
