@@ -504,8 +504,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 .gcell img{opacity:1}
 .gcell:hover img.sloaded{transform:scale(1.06)}
 /* other imgs */
-.insta-cell img,.as-img img,.about-img img{opacity:0;transition:opacity .5s}
-.insta-cell img.sloaded,.as-img img.sloaded,.about-img img.sloaded{opacity:1}
+.insta-cell img,.as-img img,.about-img img{opacity:1;transition:opacity .5s}
 .as-img img,.about-img img{opacity:1}
 /* toast above bottom nav */
   .toast{bottom:72px!important}
@@ -1636,7 +1635,7 @@ function productCardHTML(p){
   return `<div class="product-card" onclick="openProduct(${p.id})">
     <div class="product-img-wrap">
       <div class="sk-layer"></div>
-      <img data-lazy="${p.img}" alt="${p.title}" loading="lazy"/>
+      <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;opacity:1;transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)"/>
       ${p.isNew?'<span class="p-tag">New</span>':''}
       <div class="product-overlay">
         <button class="ovr-btn" onclick="event.stopPropagation();openProduct(${p.id})">Quick View</button>
@@ -1651,7 +1650,7 @@ function renderFeatured(){
   const fg=document.getElementById('featured-grid');
   if(fg){fg.innerHTML=products.slice(0,8).map(productCardHTML).join('');lazyImg(fg);}
   const ig=document.getElementById('insta-grid');
-  if(ig){ig.innerHTML=CONFIG.instaPhotos.map((src,i)=>`<div class="insta-cell" onclick="openInsta()"><div class="sk-layer"></div><img data-lazy="${src}" alt="studio" loading="lazy"/></div>`).join('');ig.querySelectorAll('img[data-lazy]').forEach(img=>lazyObs.observe(img));}
+  if(ig){ig.innerHTML=CONFIG.instaPhotos.map((src,i)=>`<div class="insta-cell" onclick="openInsta()"><img src="${src}" alt="studio" style="width:100%;height:100%;object-fit:cover;opacity:1"/></div>`).join('');}
   // Apply mosaic images from CONFIG
   const mCells=document.querySelectorAll('.gcell');
   CONFIG.mosaicImages.forEach((m,i)=>{
@@ -1710,9 +1709,9 @@ function openProduct(id){
   imgWrap.className='d-img-wrap';imgWrap.style.position='relative';
   imgWrap.innerHTML='<div class="sk-layer"></div>';
   const img=document.createElement('img');
-  img.setAttribute('data-lazy',p.img);img.alt=p.title;
-  img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s';
-  img.onload=function(){this.classList.add('sloaded');if(this.previousElementSibling)this.previousElementSibling.style.display='none';};
+  img.src=p.img;img.alt=p.title;
+  img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .5s';
+  img.onload=function(){if(this.previousElementSibling)this.previousElementSibling.style.display='none';};
   imgWrap.appendChild(img);
   dc.appendChild(imgWrap);
 
