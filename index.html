@@ -60,8 +60,50 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title> The Abstract Canvas by Ashish</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet"/>
+<title>The Abstract Canvas by Ashish Yadav | Original Abstract Paintings India</title>
+<meta name="description" content="Buy original abstract paintings handcrafted in India by Ashish Yadav. Fluid abstracts, expressive art, minimalist & geometric paintings on premium cotton canvas. Pan-India shipping with certificate of authenticity."/>
+<meta name="keywords" content="abstract paintings India, buy abstract art online, original paintings India, abstract canvas art, Ashish Yadav artist, fluid abstract paintings, expressionist art India"/>
+<meta name="author" content="Ashish Yadav"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://theabstractcanvas.art/"/>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://theabstractcanvas.art/"/>
+<meta property="og:title" content="The Abstract Canvas by Ashish Yadav | Original Abstract Paintings"/>
+<meta property="og:description" content="Original abstract paintings handcrafted in India. Bold strokes, layered textures, raw emotion on premium canvas. Pan-India shipping."/>
+<meta property="og:image" content="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:site_name" content="The Abstract Canvas"/>
+<meta property="og:locale" content="en_IN"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The Abstract Canvas by Ashish Yadav"/>
+<meta name="twitter:description" content="Original abstract paintings handcrafted in India. Bold strokes, layered textures, raw emotion."/>
+<meta name="twitter:image" content="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg"/>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "The Abstract Canvas",
+  "description": "Original abstract paintings handcrafted in India by Ashish Yadav",
+  "url": "https://theabstractcanvas.art",
+  "image": "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg",
+  "priceRange": "₹₹₹",
+  "address": { "@type": "PostalAddress", "addressCountry": "IN", "addressRegion": "Delhi NCR" },
+  "sameAs": ["https://www.instagram.com/the.abstract.canvas"]
+}
+</script>
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://res.cloudinary.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -136,9 +178,9 @@ nav.scrolled{background:rgba(250,249,247,0.97);backdrop-filter:blur(14px);box-sh
 .hero{height:100vh;position:relative;overflow:hidden;background:#0e0e0c}
 .hero-bg-gallery{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;height:100%}
 .hero-bg-strip{overflow:hidden}
-.hero-bg-strip img{width:100%;height:100%;object-fit:cover;filter:brightness(0.32);animation:stripFloat 14s ease-in-out infinite alternate}
-.hero-bg-strip:nth-child(2) img{animation-delay:-5s;animation-duration:18s}
-.hero-bg-strip:nth-child(3) img{animation-delay:-9s;animation-duration:12s}
+.hero-bg-strip img{width:100%;height:100%;object-fit:cover;filter:brightness(0.32);animation:stripFloat 5s ease-in-out infinite alternate}
+.hero-bg-strip:nth-child(2) img{animation-delay:-5s;animation-duration:5s}
+.hero-bg-strip:nth-child(3) img{animation-delay:-9s;animation-duration:5s}
 @keyframes stripFloat{0%{transform:scale(1) translateY(0)}100%{transform:scale(1.07) translateY(-2%)}}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(150deg,rgba(14,14,12,0.72) 0%,rgba(14,14,12,0.35) 60%,rgba(14,14,12,0.65) 100%)}
 .hero-scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(255,255,255,0.012) 80px,rgba(255,255,255,0.012) 81px);pointer-events:none}
@@ -777,6 +819,393 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   .zoom-prev{left:8px}
   .zoom-next{right:8px}
 }
+
+/* ═══════════════════════════════════════════════════════
+   ENHANCED UI/UX — Premium Gallery Improvements
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Enhanced CSS Variables ── */
+:root {
+  --shadow-soft: 0 4px 24px rgba(26,26,24,0.06);
+  --shadow-card: 0 2px 16px rgba(26,26,24,0.08);
+  --shadow-hover: 0 12px 40px rgba(26,26,24,0.14);
+  --radius-sm: 2px;
+  --transition-smooth: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+/* ── Selection color ── */
+::selection { background: var(--gold); color: white; }
+
+/* ── Enhanced Product Cards ── */
+.product-card {
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+.product-img-wrap {
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+.product-card:hover .product-img-wrap {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+.p-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+.product-card:hover .p-title { color: var(--gold); }
+.p-meta { align-items: baseline; }
+.p-price { 
+  font-size: 15px; 
+  font-weight: 500; 
+  color: var(--charcoal);
+  letter-spacing: 0.02em;
+}
+.p-size { 
+  font-size: 11px; 
+  color: var(--muted); 
+  letter-spacing: 0.06em;
+}
+
+/* ── Enhanced Buttons ── */
+.btn-gold {
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 12px rgba(184,154,106,0.25);
+}
+.btn-gold:hover { 
+  background: #a8895a; 
+  box-shadow: 0 4px 20px rgba(184,154,106,0.4);
+  transform: translateY(-1px);
+}
+.btn-ghost { border-radius: var(--radius-sm); }
+.btn-dark { border-radius: var(--radius-sm); }
+.btn-full { border-radius: var(--radius-sm); }
+
+/* ── Hover overlay improvement ── */
+.product-overlay {
+  background: linear-gradient(to top, rgba(14,14,12,0.75) 0%, rgba(14,14,12,0.35) 60%, transparent 100%) !important;
+  justify-content: flex-end !important;
+  padding-bottom: 20px;
+}
+.ovr-btn {
+  border-radius: 1px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* ── Section header refinement ── */
+.s-header { margin-bottom: 44px; }
+.s-label { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 10px;
+  font-weight: 500;
+}
+.s-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+}
+.s-title { letter-spacing: -0.01em; }
+
+/* ── Statement section ── */
+.statement {
+  padding: 72px 8vw;
+  background: var(--charcoal);
+  text-align: center;
+}
+.statement-q {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 46px);
+  font-weight: 300;
+  color: white;
+  line-height: 1.4;
+  max-width: 780px;
+  margin: 0 auto 18px;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+.statement-q em { color: var(--gold-light); font-style: italic; }
+.statement-attr {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Process section ── */
+.p-step {
+  padding: 32px 28px;
+  background: white;
+  border: 1px solid var(--border);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+.p-step::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.4s ease;
+}
+.p-step:hover::after { width: 100%; }
+.p-step:hover { 
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  border-color: rgba(184,154,106,0.3);
+}
+.p-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.gold-top .p-num { color: var(--gold); }
+.p-step-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+.p-step-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+/* ── About split refinement ── */
+.about-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+  overflow: hidden;
+}
+.as-img {
+  position: relative;
+  overflow: hidden;
+}
+.as-img img {
+  transition: transform 0.9s ease;
+}
+.as-img:hover img { transform: scale(1.04) !important; }
+.as-content {
+  background: var(--warm);
+  padding: 80px 8vw 80px 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+}
+.as-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.as-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.as-title em { color: var(--gold); }
+.as-body {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 2;
+  max-width: 440px;
+}
+.as-sig {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-style: italic;
+  color: var(--charcoal);
+  letter-spacing: 0.02em;
+}
+.as-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.as-stat-n {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.as-stat-d {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Trust badges below hero ── */
+.trust-strip {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.trust-item svg { color: var(--gold); flex-shrink: 0; }
+
+/* ── Detail page refinements ── */
+.d-title { letter-spacing: -0.01em; }
+.d-price { 
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+}
+.sz-btn {
+  min-width: 80px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+.btn-cart {
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+.btn-cart:hover { background: var(--ink); transform: translateY(-1px); }
+.btn-wa { border-radius: var(--radius-sm); }
+
+/* ── Filter bar refinement ── */
+.filter-bar { 
+  gap: 14px;
+  padding-bottom: 22px;
+}
+.f-select {
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+.f-select:hover { border-color: var(--gold); }
+
+/* ── Page banner refinement ── */
+.page-banner { padding: 140px 8vw 64px; }
+.pb-title { letter-spacing: -0.02em; }
+
+/* ── Footer enhancement ── */
+.f-links li {
+  transition: var(--transition-smooth);
+  padding-left: 0;
+  position: relative;
+}
+.f-links li:hover { 
+  color: var(--gold-light) !important; 
+  padding-left: 6px;
+}
+
+/* ── Mosaic gallery hover ── */
+.gcell {
+  overflow: hidden;
+  position: relative;
+}
+.gcell img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+.gcell:hover img { transform: scale(1.06); }
+
+/* ── Instagram grid enhancement ── */
+.insta-cell { border-radius: 0; }
+.insta-section { padding: 80px 8vw; }
+
+/* ── Cart enhancement ── */
+.order-sum {
+  border-radius: var(--radius-sm);
+}
+.c-item-img { border-radius: var(--radius-sm); overflow: hidden; }
+
+/* ── Scroll reveal stagger ── */
+.reveal { transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+/* ── Focus styles for accessibility ── */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ── Smooth page transitions ── */
+.page { animation: none; }
+.page.active { animation: pageIn 0.3s ease forwards; }
+@keyframes pageIn { from { opacity: 0.7; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── About page stat gold top ── */
+.a-stat.g-top { border-color: var(--gold) !important; }
+
+/* ── Nav logo image sizing fix ── */
+.nav-logo-inner img { 
+  object-fit: contain; 
+  display: block;
+}
+
+/* ── Mobile enhancements ── */
+@media (max-width: 768px) {
+  .trust-strip { 
+    gap: 20px;
+    padding: 14px 5vw;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+  .trust-item { font-size: 10px; gap: 6px; }
+  .about-split { grid-template-columns: 1fr; }
+  .as-content { padding: 48px 5vw; }
+  .as-stats { grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .as-stat-n { font-size: 28px; }
+  .statement { padding: 52px 5vw; }
+  .p-step { padding: 24px 20px; }
+  .p-num { font-size: 36px; }
+  .insta-section { padding: 48px 5vw; }
+}
+
+
+/* ── Performance hints ── */
+.product-card:hover .product-img-wrap,
+.gcell img,
+.hero-bg-strip img,
+.p-step { will-change: transform; }
+.reveal { will-change: opacity, transform; }
+.reveal.visible { will-change: auto; }
+
+/* Hero bg strip image loading */
+.hero-bg-strip img.sloaded { opacity: 1 !important; }
+.hero-bg-strip img { filter: brightness(0.32); }
+
+@media (max-width: 768px) { #wa-float { display: none !important; } }
 </style>
 </head>
 <body>
@@ -790,7 +1219,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
 
-<nav id="main-nav">
+<nav id="main-nav" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
     <div class="nav-logo light" data-cfg="logo" id="nav-logo" onclick="showPage('home')"></div>
     <ul class="nav-links">
@@ -831,7 +1260,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 </div>
 
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav">
+<nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
   <div class="bn-row">
     <button class="bn-btn active" id="bn-home" onclick="showPage('home')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
@@ -861,13 +1290,14 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
 </nav>
 
 <!-- HOME PAGE -->
+<main>
 <div class="page active" id="page-home">
 
   <div class="hero">
     <div class="hero-bg-gallery">
-      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666649/4713cfd0-914f-11f0-a4dd-55d5981f53ea_iezkdc.jpg" loading="eager" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
-      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666597/657e4020-5ae8-11ef-bf77-3dc53718b8d0_zkrjvf.jpg" loading="eager" alt="abstract art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
-      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666592/66f9a740-7cef-11ef-afbe-e1aeb6fe13a4_d5ieof.jpg" loading="eager" alt="canvas painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/4212d2e0-920f-11f0-ab9f-937410c86c2c_ebmsvr.jpg" loading="eager" alt="abstract painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666592/66f9a740-7cef-11ef-afbe-e1aeb6fe13a4_d5ieof.jpg" loading="eager" alt="abstract art" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
+      <div class="hero-bg-strip"><img src="https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666560/b6636080-1238-11f0-896f-3bea01ab1b27_qgfo6e.jpg" loading="eager" alt="canvas painting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.classList.add('sloaded')" loading="eager"/></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-scanlines"></div>
@@ -883,7 +1313,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
         <span class="hero-line">becomes <em>canvas</em></span>
       </h1>
       <p class="hero-sub">Each painting is an original expression — bold strokes, layered textures, and raw emotion translated into art for your space.</p>
-      <div class="hero-ctas">
+      <div class="hero-ctas" role="group" aria-label="Primary actions">
         <button class="btn-gold" onclick="showPage('shop')">Explore Gallery</button>
         <button class="btn-ghost" onclick="showPage('about')">About the Artist</button>
       </div>
@@ -916,6 +1346,30 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
     </div>
   </div>
 
+  <!-- Trust Badges Strip 
+  <div class="trust-strip">
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Authenticity Certified
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      5–7 Day Delivery
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      Hand-Signed Original
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Pan-India Shipping
+    </div>
+    <div class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      7-Day Returns
+    </div>
+  </div>-->
+
   <section>
     <div class="s-header reveal">
       <div>
@@ -924,7 +1378,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
       </div>
       <button class="s-link" onclick="showPage('shop')">View all paintings →</button>
     </div>
-    <div class="product-grid" id="featured-grid"></div>
+    <div class="product-grid" id="featured-grid" role="list" aria-label="Featured paintings"></div>
   </section>
 
   <div class="statement">
@@ -1122,7 +1576,7 @@ footer{background:var(--charcoal);color:white;padding:68px 8vw 30px}
   </div>
 </div>
 
-<footer>
+<footer role="contentinfo" aria-label="Site footer">
   <div class="f-grid">
     <div>
       <div class="f-gold-bar"></div>
@@ -1379,12 +1833,12 @@ const CONFIG = {
         paintings: [
     {
       title: "Monsoon Memory",
-      style: "Fluid Abstract",
-      size: '36"×48"',
-      price: 10000,
+      style: "Expressive",
+      size: '18"×24"',
+      price: 12000,
       img: "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg",
-      imgs: ["https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg", "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg"],
-      description: "new painting",
+      imgs: ["https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg", "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg", "https://res.cloudinary.com/ddvmhldwx/image/upload/v1773666603/047278c0-7837-11ef-a69e-13e7091fbaa6_prdm1e.jpg"],
+      description: "The smell of first rain on dry earth, translated into paint. Loose, expressive brushwork in slate and indigo evokes the mood of an Indian monsoon afternoon.",
       isNew: true
     },
     {
@@ -1655,6 +2109,8 @@ function removeFromCart(key){cart=cart.filter(i=>i.key!==key);updateCartCount();
 
 // PAGES
 function showPage(name){
+  // Reset page title
+  if(name !== 'detail') document.title = 'The Abstract Canvas by Ashish Yadav | Original Abstract Paintings India';
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
   document.querySelectorAll('.mob-links a').forEach(a=>a.classList.remove('active'));
@@ -1691,14 +2147,14 @@ window.addEventListener('hashchange',()=>{
 });
 
 // RENDER
-function productCardHTML(p){
+function productCardHTML(p){ // Each card is an article for SEO
   return `<div class="product-card" onclick="openProduct(${p.id})">
     <div class="product-img-wrap">
       <div class="sk-layer"></div>
-      <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;opacity:1;transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)"/>
+      <img src="${p.img}" alt="${p.title} - Original abstract painting by Ashish Yadav" width="400" height="533" style="width:100%;height:100%;object-fit:cover;opacity:1;transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)" loading="lazy"/>
       ${p.isNew?'<span class="p-tag">New</span>':''}
       <div class="product-overlay">
-        <button class="ovr-btn" onclick="event.stopPropagation();openProduct(${p.id})">Quick View</button>
+        <button class="ovr-btn" onclick="event.stopPropagation();openProduct(${p.id})">View Details</button>
         <button class="ovr-btn gold" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
       </div>
     </div>
@@ -1927,6 +2383,34 @@ function openProduct(id){
   window.scrollTo({top:0,behavior:'smooth'});
   lazyImg(dc);
   history.pushState({page:'detail',productId:id},'Product',window.location.pathname+'#detail/'+id);
+
+  // Inject product structured data for SEO
+  let existingSchema = document.getElementById('product-schema');
+  if(existingSchema) existingSchema.remove();
+  const productSchema = document.createElement('script');
+  productSchema.id = 'product-schema';
+  productSchema.type = 'application/ld+json';
+  productSchema.textContent = JSON.stringify({
+    "@context":"https://schema.org",
+    "@type":"Product",
+    "name": p.title,
+    "description": p.description,
+    "image": p.img,
+    "brand": {"@type":"Brand","name":"The Abstract Canvas"},
+    "offers": {
+      "@type":"Offer",
+      "priceCurrency":"INR",
+      "price": p.price,
+      "availability":"https://schema.org/InStock",
+      "seller":{"@type":"Organization","name":"The Abstract Canvas"}
+    },
+    "category": p.style,
+    "material": "Acrylic on cotton canvas"
+  });
+  document.head.appendChild(productSchema);
+
+  // Update page title for SEO
+  document.title = p.title + ' | The Abstract Canvas by Ashish Yadav';
 }
 // selectSize handled inline via addEventListener in openProduct
 function renderCart(){
@@ -2317,6 +2801,36 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'ArrowRight') zoomNav(1);
   if(e.key === 'ArrowLeft')  zoomNav(-1);
 });
+</script>
+
+
+<!-- WhatsApp Float Button -->
+<a id="wa-float" href="https://wa.me/919717588424?text=Hi%20Ashish!%20I%20found%20your%20art%20at%20The%20Abstract%20Canvas%20and%20would%20love%20to%20know%20more."
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Chat on WhatsApp"
+   style="position:fixed;bottom:28px;left:24px;z-index:800;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.35);opacity:0;transform:translateY(16px);transition:opacity 0.4s,transform 0.4s,background 0.2s;pointer-events:none;text-decoration:none;">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<script>
+// Show WA float button after scrolling 300px
+(function(){
+  var waf = document.getElementById('wa-float');
+  if(!waf) return;
+  function toggleWAFloat(){
+    if(window.scrollY > 300){
+      waf.style.opacity='1';waf.style.transform='translateY(0)';waf.style.pointerEvents='auto';
+    } else {
+      waf.style.opacity='0';waf.style.transform='translateY(16px)';waf.style.pointerEvents='none';
+    }
+  }
+  window.addEventListener('scroll', toggleWAFloat, {passive:true});
+  // Update URL with actual WhatsApp number from CONFIG
+  window.addEventListener('load', function(){
+    if(typeof CONFIG !== 'undefined' && CONFIG.whatsappNumber){
+      waf.href = 'https://wa.me/'+CONFIG.whatsappNumber+'?text=Hi%20Ashish!%20I%20found%20your%20art%20and%20would%20love%20to%20know%20more.';
+    }
+  });
+})();
 </script>
 
 </body>
