@@ -332,6 +332,7 @@ section{padding:96px 8vw}
 .d-badge{display:inline-block;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:var(--warm);color:var(--muted);padding:5px 13px;border:1px solid var(--border)}
 .d-title{font-family:var(--font-display);font-size:44px;font-weight:300;line-height:1.15;margin-top:14px}
 .d-price{font-size:26px;font-weight:400;margin-top:8px;transition:opacity 0.15s,transform 0.15s;display:inline-block}
+.d-shipping-note{font-size:12px;font-style:italic;color:var(--muted);margin-top:5px}
 .d-desc{font-size:14px;color:var(--muted);line-height:1.88;border-top:1px solid var(--border);padding-top:20px}
 .sz-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 .sz-btns{display:flex;gap:8px;flex-wrap:wrap}
@@ -2306,6 +2307,10 @@ function openProduct(id){
   priceEl.id='detail-price';
   priceEl.textContent='₹'+(sp[baseIdx]||p.price).toLocaleString('en-IN');
   titleDiv.appendChild(priceEl);
+  const shippingNote=document.createElement('p');
+  shippingNote.className='d-shipping-note';
+  shippingNote.textContent='Shipping charges will be applied at the time of purchasing.';
+  titleDiv.appendChild(shippingNote);
   info.appendChild(titleDiv);
 
   // Description
