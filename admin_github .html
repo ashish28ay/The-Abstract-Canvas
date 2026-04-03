@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Panel — The Abstract Canvas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f0d;--surface:#1a1a17;--surface2:#222220;--border:#2e2e2a;
+  --gold:#b89a6a;--gold-light:#d4b896;--cream:#faf9f7;--muted:#6b6a65;
+  --text:#e8e4dd;--red:#e05555;--green:#5aad7a;
+  --font-display:'Cormorant Garamond',serif;--font-body:'DM Sans',sans-serif;
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── SETUP SCREEN ── */
+.setup-overlay{position:fixed;inset:0;background:var(--bg);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.setup-box{width:100%;max-width:480px}
+.setup-logo{font-family:var(--font-display);font-size:28px;color:var(--gold);font-weight:300;margin-bottom:4px}
+.setup-sub{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:36px}
+.setup-step{margin-bottom:24px}
+.setup-label{display:block;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.setup-inp{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--cream);padding:12px 14px;font-family:var(--font-body);font-size:13px;outline:none;transition:border-color 0.2s}
+.setup-inp:focus{border-color:var(--gold)}
+.setup-hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6}
+.setup-hint a{color:var(--gold);text-decoration:none}
+.setup-hint a:hover{text-decoration:underline}
+.setup-err{color:var(--red);font-size:12px;margin-bottom:14px;display:none;padding:10px 12px;border:1px solid rgba(224,85,85,0.2);background:rgba(224,85,85,0.06)}
+.setup-btn{width:100%;padding:14px;background:var(--gold);color:#0f0f0d;border:none;font-family:var(--font-body);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background 0.2s;margin-top:8px}
+.setup-btn:hover{background:var(--gold-light)}
+.setup-btn:disabled{opacity:0.5;cursor:not-allowed}
+.token-steps{background:var(--surface2);border:1px solid var(--border);padding:14px;margin-top:8px}
+.token-step{display:flex;gap:10px;margin-bottom:8px;font-size:12px;color:var(--text);line-height:1.5}
+.token-step:last-child{margin-bottom:0}
+.token-step-num{width:18px;height:18px;background:var(--gold);color:#0f0f0d;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border-radius:50%;flex-shrink:0;margin-top:1px}
+.token-step strong{color:var(--gold)}
+
+/* ── HEADER ── */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.header-logo{font-family:var(--font-display);font-size:18px;color:var(--gold)}
+.header-logo span{font-family:var(--font-body);font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-left:10px}
+.header-right{display:flex;align-items:center;gap:12px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.status-dot.ok{background:var(--green)}
+.status-dot.saving{background:var(--gold);animation:pulse-dot 1s infinite}
+.status-dot.err{background:var(--red)}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.status-text{font-size:11px;color:var(--muted);letter-spacing:0.05em}
+
+/* ── BUTTONS ── */
+.btn{padding:8px 18px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--font-body);cursor:pointer;border:none;transition:all 0.2s;font-weight:500}
+.btn-gold{background:var(--gold);color:#0f0f0d}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-gold:disabled{opacity:0.5;cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-red-sm{background:transparent;color:var(--red);border:1px solid rgba(224,85,85,0.25);padding:5px 11px;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;font-family:var(--font-body);cursor:pointer;transition:all 0.2s}
+.btn-red-sm:hover{background:rgba(224,85,85,0.1)}
+.btn-green-sm{background:var(--green);color:#0f0f0d;padding:5px 11px;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;font-family:var(--font-body);cursor:pointer;transition:opacity 0.2s;border:none}
+.btn-green-sm:hover{opacity:0.85}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 60px)}
+
+/* ── LIST PANEL ── */
+.list-panel{padding:24px 28px;border-right:1px solid var(--border);overflow-y:auto;max-height:calc(100vh - 60px)}
+.list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.list-title{font-family:var(--font-display);font-size:24px;font-weight:300;color:var(--cream)}
+.list-title span{color:var(--gold)}
+.count-badge{background:var(--surface2);color:var(--muted);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--border)}
+.paintings-list{display:flex;flex-direction:column;gap:8px}
+.p-row{background:var(--surface);border:1px solid var(--border);display:grid;grid-template-columns:64px 1fr auto;gap:0;cursor:pointer;transition:border-color 0.2s}
+.p-row:hover{border-color:var(--gold)}
+.p-row.active{border-color:var(--gold);background:var(--surface2)}
+.p-row-thumb{width:64px;height:64px;object-fit:cover;display:block}
+.p-row-thumb-ph{width:64px;height:64px;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px}
+.p-row-info{padding:10px 14px;min-width:0}
+.p-row-title{font-family:var(--font-display);font-size:16px;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.p-row-meta{font-size:10px;color:var(--muted);letter-spacing:0.04em}
+.p-row-price{color:var(--gold)}
+.badge-new{background:var(--gold);color:#0f0f0d;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 6px;font-weight:700;vertical-align:middle}
+.p-row-btns{padding:10px;display:flex;flex-direction:column;gap:5px;justify-content:center}
+.add-row{border:1px dashed var(--border);padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--muted);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;margin-top:8px}
+.add-row:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── EDIT PANEL ── */
+.edit-panel{padding:24px;overflow-y:auto;background:var(--surface);max-height:calc(100vh - 60px)}
+.edit-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;gap:10px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.form-input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--cream);padding:9px 11px;font-family:var(--font-body);font-size:13px;outline:none;transition:border-color 0.2s}
+.form-input:focus{border-color:var(--gold)}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6a65' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toggle-wrap{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--bg);border:1px solid var(--border)}
+.toggle{position:relative;width:38px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-sl{position:absolute;inset:0;background:var(--border);cursor:pointer;transition:0.3s;border-radius:20px}
+.toggle-sl:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:var(--muted);transition:0.3s;border-radius:50%}
+.toggle input:checked+.toggle-sl{background:var(--gold)}
+.toggle input:checked+.toggle-sl:before{transform:translateX(18px);background:#0f0f0d}
+.form-actions{display:flex;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.edit-header{margin-bottom:18px}
+.edit-title{font-family:var(--font-display);font-size:20px;font-weight:300;color:var(--cream)}
+.edit-sub{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px}
+.prev-img{width:100%;height:160px;object-fit:cover;margin-bottom:14px}
+.prev-ph{width:100%;height:160px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--muted);margin-bottom:14px;font-size:12px;border:1px dashed var(--border)}
+
+/* ── MULTI-IMAGE SECTION ── */
+.imgs-wrap{margin-bottom:14px}
+.imgs-label{display:block;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.imgs-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.img-row{display:grid;grid-template-columns:52px 1fr 32px;gap:6px;align-items:center;background:var(--bg);border:1px solid var(--border);padding:5px 7px;transition:border-color 0.2s}
+.img-row.main-img{border-color:rgba(184,154,106,0.5)}
+.img-row-thumb{width:52px;height:52px;object-fit:cover;display:block}
+.img-row-ph{width:52px;height:52px;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:16px}
+.img-row-inp{background:transparent;border:none;color:var(--cream);font-family:var(--font-body);font-size:11px;outline:none;width:100%;padding:3px 0}
+.img-row-inp::placeholder{color:var(--muted)}
+.img-main-badge{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(184,154,106,0.4);padding:2px 5px;white-space:nowrap}
+.img-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:2px;transition:color 0.2s;display:flex;align-items:center;justify-content:center}
+.img-del:hover{color:var(--red)}
+.add-img-btn{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px dashed var(--border);background:transparent;color:var(--muted);font-family:var(--font-body);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%}
+.add-img-btn:hover{border-color:var(--gold);color:var(--gold)}
+.imgs-hint{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+
+/* ── SAVING TOAST ── */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--gold);color:var(--cream);padding:10px 20px;font-size:12px;z-index:9999;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{border-color:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SETUP SCREEN — Token + Repo config         -->
+<!-- ══════════════════════════════════════════ -->
+<div id="setup-screen" class="setup-overlay">
+  <div class="setup-box">
+    <div class="setup-logo">The Abstract Canvas</div>
+    <div class="setup-sub">Admin Panel — GitHub Setup</div>
+
+    <div class="setup-step">
+      <label class="setup-label">GitHub Personal Access Token</label>
+      <input class="setup-inp" type="password" id="s-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
+      <div class="token-steps">
+        <div class="token-step"><div class="token-step-num">1</div><div>GitHub.com pe jao → top-right avatar → <strong>Settings</strong></div></div>
+        <div class="token-step"><div class="token-step-num">2</div><div>Left sidebar → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong></div></div>
+        <div class="token-step"><div class="token-step-num">3</div><div><strong>Generate new token (classic)</strong> → Note: "Abstract Canvas Admin"</div></div>
+        <div class="token-step"><div class="token-step-num">4</div><div>Expiration: <strong>No expiration</strong> → Scope: sirf <strong>repo</strong> tick karo</div></div>
+        <div class="token-step"><div class="token-step-num">5</div><div>Token copy karo → yahan paste karo</div></div>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <label class="setup-label">GitHub Username</label>
+      <input class="setup-inp" type="text" id="s-user" value="ashish28ay" placeholder="ashish28ay"/>
+    </div>
+
+    <div class="setup-step">
+      <label class="setup-label">Repository Name</label>
+      <input class="setup-inp" type="text" id="s-repo" value="The-Abstract-Canvas" placeholder="The-Abstract-Canvas"/>
+    </div>
+
+    <div class="setup-step">
+      <label class="setup-label">File Name in Repository</label>
+      <input class="setup-inp" type="text" id="s-file" value="index.html" placeholder="index.html"/>
+      <div class="setup-hint">Aapki GitHub repo mein file ka naam — screenshot mein <strong>index.html</strong> dikh raha hai</div>
+    </div>
+
+    <div class="setup-err" id="setup-err"></div>
+    <button class="setup-btn" id="setup-btn" onclick="connectGitHub()">🔗 Connect & Load Paintings</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- MAIN ADMIN PANEL                           -->
+<!-- ══════════════════════════════════════════ -->
+<div id="main-app" style="display:none">
+  <div class="header">
+    <div class="header-logo">The Abstract Canvas <span>Admin Panel</span></div>
+    <div class="header-right">
+      <div class="status-dot" id="status-dot"></div>
+      <div class="status-text" id="status-text">Ready</div>
+      <button class="btn btn-outline" onclick="reloadFromGitHub()">↺ Reload</button>
+      <button class="btn btn-gold" id="save-btn" onclick="saveToGitHub()">⬆ Save to GitHub</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LIST -->
+    <div class="list-panel">
+      <div class="list-header">
+        <div class="list-title">Paintings <span>Collection</span></div>
+        <span class="count-badge" id="count-badge">0</span>
+      </div>
+      <div class="paintings-list" id="paintings-list"></div>
+      <div class="add-row" onclick="addNew()">
+        <span style="font-size:16px">+</span> Add New Painting
+      </div>
+    </div>
+
+    <!-- EDIT FORM -->
+    <div class="edit-panel" id="edit-panel">
+      <div class="edit-empty">
+        <div style="font-size:40px;opacity:0.25">🎨</div>
+        <div style="font-size:12px">Koi painting select karo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG — saved in localStorage
+// ══════════════════════════════════════════
+const STYLES = ['Fluid Abstract','Expressive','Textured','Minimalist','Geometric'];
+const SIZES  = ['12"×16"','18"×24"','24"×36"','36"×48"'];
+
+let GH = { token:'', user:'ashish28ay', repo:'The-Abstract-Canvas', file:'index.html' };
+let paintings = [];
+let selectedIdx = null;
+let fileSha = '';   // GitHub file SHA (needed for updates)
+let hasUnsaved = false;
+
+// ── LOAD SAVED CONFIG ──
+function loadConfig() {
+  const saved = localStorage.getItem('tac_gh_config');
+  if (saved) {
+    try { GH = {...GH, ...JSON.parse(saved)}; } catch(e) {}
+  }
+  if (GH.token) {
+    document.getElementById('s-token').value = GH.token;
+    document.getElementById('s-user').value  = GH.user;
+    document.getElementById('s-repo').value  = GH.repo;
+    document.getElementById('s-file').value  = GH.file;
+    // Auto-connect if token already saved
+    connectGitHub();
+  }
+}
+
+// ── CONNECT & FETCH FROM GITHUB ──
+async function connectGitHub() {
+  const btn = document.getElementById('setup-btn');
+  const errEl = document.getElementById('setup-err');
+  errEl.style.display = 'none';
+
+  GH.token = document.getElementById('s-token').value.trim();
+  GH.user  = document.getElementById('s-user').value.trim();
+  GH.repo  = document.getElementById('s-repo').value.trim();
+  GH.file  = document.getElementById('s-file').value.trim();
+
+  if (!GH.token) {
+    showSetupErr('Token daalna zaroori hai!');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Connecting...';
+
+  try {
+    const result = await fetchGitHubFile();
+    if (!result) return;
+
+    // Save config
+    localStorage.setItem('tac_gh_config', JSON.stringify(GH));
+
+    // Extract paintings from HTML
+    paintings = extractPaintings(result.content);
+    fileSha = result.sha;
+
+    if (paintings.length === 0) {
+      showSetupErr('Paintings data nahi mila file mein. Check karo ki sahi file hai.');
+      btn.disabled = false;
+      btn.textContent = '🔗 Connect & Load Paintings';
+      return;
+    }
+
+    // Launch app
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    setStatus('ok', `${paintings.length} paintings loaded ✓`);
+    renderList();
+
+  } catch(e) {
+    showSetupErr('Error: ' + e.message);
+    btn.disabled = false;
+    btn.textContent = '🔗 Connect & Load Paintings';
+  }
+}
+
+// ── FETCH FILE FROM GITHUB ──
+async function fetchGitHubFile() {
+  const url = `https://api.github.com/repos/${GH.user}/${GH.repo}/contents/${GH.file}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': `token ${GH.token}`,
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  });
+
+  if (res.status === 401) throw new Error('Token galat hai ya expire ho gaya');
+  if (res.status === 404) throw new Error(`File "${GH.file}" repo mein nahi mili`);
+  if (!res.ok) throw new Error(`GitHub error: ${res.status}`);
+
+  const data = await res.json();
+  // Proper UTF-8 decoding — handles emojis, Hindi text, special chars
+  const base64Clean = data.content.replace(/\n/g, '');
+  const binaryStr = atob(base64Clean);
+  const bytes = new Uint8Array(binaryStr.length);
+  for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+  const content = new TextDecoder('utf-8').decode(bytes);
+  return { content, sha: data.sha };
+}
+
+// ── EXTRACT PAINTINGS FROM HTML ──
+function extractPaintings(html) {
+  // Find paintings: [ ... ], block using a reliable anchor
+  // Strategy: find the start of paintings:[ then find the matching closing ],
+  const startMarker = html.indexOf('paintings: [');
+  if (startMarker === -1) return [];
+
+  // Walk forward counting brackets to find the matching ]
+  let depth = 0;
+  let start = html.indexOf('[', startMarker);
+  let end = -1;
+  for (let i = start; i < html.length; i++) {
+    if (html[i] === '[') depth++;
+    else if (html[i] === ']') {
+      depth--;
+      if (depth === 0) { end = i; break; }
+    }
+  }
+  if (end === -1) return [];
+
+  const arrStr = html.slice(start, end + 1);
+  return parsePaintingsArray(arrStr);
+}
+
+function parsePaintingsArray(str) {
+  try {
+    const parsed = Function('"use strict"; return (' + str + ')')();
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map(p => ({
+      ...p,
+      imgs: p.imgs && p.imgs.length ? p.imgs : (p.img ? [p.img] : [])
+    }));
+  } catch(e) {
+    console.error('Parse error:', e, str.slice(0,200));
+    return [];
+  }
+}
+
+// ── SAVE TO GITHUB ──
+async function saveToGitHub() {
+  if (selectedIdx !== null) saveForm(selectedIdx);
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Saving...';
+  setStatus('saving', 'Saving to GitHub...');
+
+  try {
+    // Fetch fresh file content + sha
+    const result = await fetchGitHubFile();
+    const freshSha = result.sha;
+    let html = result.content;
+
+    // Generate new paintings code
+    const newPaintingsCode = generatePaintingsCode();
+
+    // Replace paintings block in HTML
+    html = replacePaintingsInHTML(html, newPaintingsCode);
+
+    // Push to GitHub
+    // Proper UTF-8 encode → base64 (handles emojis, Hindi, special chars)
+    const utf8Bytes = new TextEncoder().encode(html);
+    let binary = '';
+    for (let i = 0; i < utf8Bytes.length; i++) binary += String.fromCharCode(utf8Bytes[i]);
+    const encoded = btoa(binary);
+    const pushUrl = `https://api.github.com/repos/${GH.user}/${GH.repo}/contents/${GH.file}`;
+    const pushRes = await fetch(pushUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GH.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Admin panel: updated paintings (${paintings.length} paintings)`,
+        content: encoded,
+        sha: freshSha
+      })
+    });
+
+    if (!pushRes.ok) {
+      const errData = await pushRes.json();
+      throw new Error(errData.message || `Push failed: ${pushRes.status}`);
+    }
+
+    const pushData = await pushRes.json();
+    fileSha = pushData.content.sha;
+    hasUnsaved = false;
+
+    setStatus('ok', 'Saved! Netlify deploy ho raha hai (~60 sec)');
+    showToast('✅ GitHub pe save ho gaya! Website 60 sec mein update hogi.');
+    btn.textContent = '⬆ Save to GitHub';
+    btn.disabled = false;
+
+  } catch(e) {
+    setStatus('err', 'Save failed: ' + e.message);
+    showToast('❌ Save failed: ' + e.message, true);
+    btn.textContent = '⬆ Save to GitHub';
+    btn.disabled = false;
+  }
+}
+
+// ── GENERATE PAINTINGS JS CODE ──
+function generatePaintingsCode() {
+  const esc = s => (s||'').replace(/\\/g,'\\\\').replace(/"/g,'\\"');
+  const lines = paintings.map(p => {
+    const imgsArr = (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []);
+    const imgsCode = '[' + imgsArr.map(u=>`"${esc(u)}"`).join(', ') + ']';
+    // No inline comments — they cause syntax errors when re-parsed
+    return `    {\n      title: "${esc(p.title)}",\n      style: "${esc(p.style)}",\n      size: '${p.size}',\n      price: ${p.price},\n      img: "${esc(p.img)}",\n      imgs: ${imgsCode},\n      description: "${esc(p.description)}",\n      isNew: ${p.isNew||false}\n    }`;
+  });
+  return lines.join(',\n');
+}
+
+// ── REPLACE PAINTINGS BLOCK IN HTML ──
+// Uses bracket counting — safe and reliable, no regex on content
+function replacePaintingsInHTML(html, newCode) {
+  const startMarker = html.indexOf('paintings: [');
+  if (startMarker === -1) {
+    console.error('paintings: [ not found in HTML!');
+    return html;
+  }
+
+  const openBracket = html.indexOf('[', startMarker);
+  let depth = 0;
+  let closeBracket = -1;
+  for (let i = openBracket; i < html.length; i++) {
+    if (html[i] === '[') depth++;
+    else if (html[i] === ']') {
+      depth--;
+      if (depth === 0) { closeBracket = i; break; }
+    }
+  }
+
+  if (closeBracket === -1) {
+    console.error('Could not find closing ] for paintings array');
+    return html;
+  }
+
+  // Replace everything between [ and ] with new paintings code
+  const before = html.slice(0, openBracket + 1);
+  const after  = html.slice(closeBracket);
+  return before + '\n' + newCode + ',\n  ' + after;
+}
+
+// ── RELOAD FROM GITHUB ──
+async function reloadFromGitHub() {
+  if (hasUnsaved && !confirm('Unsaved changes hain. Reload karoge toh changes kho jayenge. Continue?')) return;
+  setStatus('saving', 'Reloading...');
+  try {
+    const result = await fetchGitHubFile();
+    paintings = extractPaintings(result.content);
+    fileSha = result.sha;
+    selectedIdx = null;
+    document.getElementById('edit-panel').innerHTML = '<div class="edit-empty"><div style="font-size:40px;opacity:0.25">🎨</div><div style="font-size:12px">Koi painting select karo</div></div>';
+    renderList();
+    setStatus('ok', `${paintings.length} paintings reloaded`);
+    showToast('↺ GitHub se reload ho gaya');
+  } catch(e) {
+    setStatus('err', e.message);
+    showToast('❌ Reload failed: ' + e.message, true);
+  }
+}
+
+// ── RENDER LIST ──
+function renderList() {
+  document.getElementById('count-badge').textContent = paintings.length + ' paintings';
+  document.getElementById('paintings-list').innerHTML = paintings.map((p, i) => `
+    <div class="p-row ${selectedIdx===i?'active':''}" onclick="selectPainting(${i})">
+      ${p.img
+        ? `<img class="p-row-thumb" src="${escH(p.img)}" onerror="this.style.display='none'" alt="${escH(p.title)}"/>`
+        : `<div class="p-row-ph">🖼</div>`}
+      <div class="p-row-info">
+        <div class="p-row-title">${escH(p.title)} ${p.isNew?'<span class="badge-new">New</span>':''}</div>
+        <div class="p-row-meta">${p.style} · ${p.size} · <span class="p-row-price">₹${Number(p.price).toLocaleString('en-IN')}</span> · ${(p.imgs||[p.img]).filter(Boolean).length} photo(s)</div>
+      </div>
+      <div class="p-row-btns">
+        <button class="btn-red-sm" onclick="event.stopPropagation();deletePainting(${i})">Delete</button>
+        <button class="btn-green-sm" onclick="event.stopPropagation();selectPainting(${i})">Edit</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SELECT PAINTING ──
+function selectPainting(i) {
+  if (selectedIdx !== null && selectedIdx !== i) saveForm(selectedIdx);
+  selectedIdx = i;
+  renderList();
+  renderForm(i);
+}
+
+// ── RENDER FORM ──
+function renderForm(i) {
+  const p = paintings[i];
+  const imgs = (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : ['']);
+  const mainImg = imgs[0] || '';
+
+  const panel = document.getElementById('edit-panel');
+  panel.innerHTML = `
+    <div class="edit-header">
+      <div class="edit-title">Edit Painting</div>
+      <div class="edit-sub">Painting ${i+1} of ${paintings.length}</div>
+    </div>
+    ${mainImg
+      ? `<img class="prev-img" id="prev-img" src="${escH(mainImg)}" alt="preview"/>`
+      : `<div class="prev-ph" id="prev-img">Pehla photo add karo</div>`}
+
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="f-title" value="${escH(p.title)}" placeholder="Painting naam"/>
+    </div>
+
+    <div class="imgs-wrap">
+      <label class="imgs-label">Photos <span id="imgs-count" style="color:var(--gold)">(${imgs.length})</span> — pehla main thumbnail hoga</label>
+      <div class="imgs-list" id="imgs-list"></div>
+      <button class="add-img-btn" onclick="addImgRow()">
+        <span style="font-size:14px">+</span> Aur angle add karo
+      </button>
+      <div class="imgs-hint">💡 Imgur/Cloudinary pe upload → URL copy → yahan paste karo</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Style</label>
+        <select class="form-input form-select" id="f-style">
+          ${STYLES.map(s=>`<option ${s===p.style?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Default Size</label>
+        <select class="form-input form-select" id="f-size">
+          ${SIZES.map(s=>`<option ${s===p.size?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Price (₹)</label>
+      <input class="form-input" id="f-price" type="number" value="${p.price}"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-input form-textarea" id="f-desc">${escH(p.description)}</textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="toggle-wrap">
+        <label class="toggle">
+          <input type="checkbox" id="f-isnew" ${p.isNew?'checked':''}>
+          <span class="toggle-sl"></span>
+        </label>
+        <span style="font-size:12px">"New" badge dikhao</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-gold" style="flex:1" onclick="saveForm(${i});showToast('✓ Saved locally! GitHub pe push karne ke liye Save to GitHub dabao.')">✓ Save</button>
+      <button class="btn-red-sm" style="padding:8px 16px;font-size:10px" onclick="deletePainting(${i})">Delete</button>
+    </div>
+  `;
+
+  renderImgRows(imgs);
+}
+
+// ── IMAGE ROWS ──
+function renderImgRows(imgs) {
+  const list = document.getElementById('imgs-list');
+  if (!list) return;
+  list.innerHTML = '';
+  (imgs.length ? imgs : ['']).forEach((url, idx) => buildImgRow(url, idx === 0));
+}
+
+function buildImgRow(url, isMain) {
+  const list = document.getElementById('imgs-list');
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'img-row' + (isMain ? ' main-img' : '');
+
+  // Thumb
+  const thumb = document.createElement(url ? 'img' : 'div');
+  if (url) {
+    thumb.src = url; thumb.className = 'img-row-thumb';
+    thumb.onerror = function(){ this.style.display='none'; };
+  } else {
+    thumb.className = 'img-row-ph'; thumb.textContent = '🖼';
+  }
+
+  // Input
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.className = 'img-row-inp';
+  inp.value = url || '';
+  inp.placeholder = isMain ? 'Main photo URL...' : 'Extra angle URL...';
+  inp.oninput = function() {
+    if (this.value.startsWith('http')) {
+      const ni = document.createElement('img');
+      ni.src = this.value; ni.className = 'img-row-thumb';
+      ni.onerror = function(){ this.style.display='none'; };
+      row.replaceChild(ni, row.firstChild);
+      if (isMain) {
+        const pv = document.getElementById('prev-img');
+        if (pv) pv.src = this.value;
+      }
+    }
+    updateImgsCount();
+    markUnsaved();
+  };
+
+  // Right side: badge or delete
+  const right = document.createElement('div');
+  if (isMain) {
+    const badge = document.createElement('span');
+    badge.className = 'img-main-badge'; badge.textContent = 'MAIN';
+    right.appendChild(badge);
+  } else {
+    const del = document.createElement('button');
+    del.className = 'img-del'; del.innerHTML = '×'; del.title = 'Remove';
+    del.onclick = function(){ row.remove(); updateImgsCount(); markUnsaved(); };
+    right.appendChild(del);
+  }
+
+  row.appendChild(thumb);
+  row.appendChild(inp);
+  row.appendChild(right);
+  list.appendChild(row);
+}
+
+function addImgRow() {
+  buildImgRow('', false);
+  document.getElementById('imgs-list')?.lastElementChild?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  updateImgsCount();
+}
+
+function updateImgsCount() {
+  const c = document.querySelectorAll('#imgs-list .img-row').length;
+  const el = document.getElementById('imgs-count');
+  if (el) el.textContent = `(${c})`;
+}
+
+function getImgsFromForm() {
+  const urls = [];
+  document.querySelectorAll('#imgs-list .img-row-inp').forEach(inp => {
+    if (inp.value.trim()) urls.push(inp.value.trim());
+  });
+  return urls;
+}
+
+// ── SAVE FORM (local) ──
+function saveForm(i) {
+  if (!document.getElementById('f-title')) return;
+  const imgs = getImgsFromForm();
+  const mainImg = imgs[0] || paintings[i]?.img || '';
+  paintings[i] = {
+    ...paintings[i],
+    title:       document.getElementById('f-title')?.value.trim() || paintings[i].title,
+    img:         mainImg,
+    imgs:        imgs.length ? imgs : [mainImg],
+    style:       document.getElementById('f-style')?.value || paintings[i].style,
+    size:        document.getElementById('f-size')?.value || paintings[i].size,
+    price:       parseInt(document.getElementById('f-price')?.value) || 0,
+    description: document.getElementById('f-desc')?.value.trim() || '',
+    isNew:       document.getElementById('f-isnew')?.checked || false,
+  };
+  markUnsaved();
+}
+
+// ── ADD NEW ──
+function addNew() {
+  if (selectedIdx !== null) saveForm(selectedIdx);
+  paintings.push({ title:'New Painting', style:'Fluid Abstract', size:'18"×24"', price:10000, img:'', imgs:[''], description:'', isNew:true });
+  selectedIdx = paintings.length - 1;
+  renderList();
+  renderForm(selectedIdx);
+  showToast('+ Naya painting add kiya!');
+  document.getElementById('paintings-list').lastElementChild?.previousElementSibling?.scrollIntoView({behavior:'smooth'});
+  markUnsaved();
+}
+
+// ── DELETE ──
+function deletePainting(i) {
+  const name = paintings[i].title;
+  if (!confirm(`"${name}" delete karna chahte hain?`)) return;
+  paintings.splice(i, 1);
+  if (selectedIdx === i) {
+    selectedIdx = null;
+    document.getElementById('edit-panel').innerHTML = '<div class="edit-empty"><div style="font-size:40px;opacity:0.25">🎨</div><div style="font-size:12px">Koi painting select karo</div></div>';
+  } else if (selectedIdx > i) selectedIdx--;
+  renderList();
+  showToast(`🗑 "${name}" delete ho gaya`);
+  markUnsaved();
+}
+
+// ── STATUS + UNSAVED ──
+function markUnsaved() {
+  hasUnsaved = true;
+  setStatus('saving', 'Unsaved changes');
+}
+function setStatus(type, msg) {
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  dot.className = 'status-dot ' + type;
+  txt.textContent = msg;
+}
+
+// ── TOAST ──
+function showToast(msg, isErr) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' error' : '');
+  setTimeout(()=>t.className='toast', 3500);
+}
+function showSetupErr(msg) {
+  const el = document.getElementById('setup-err');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('setup-btn').disabled = false;
+  document.getElementById('setup-btn').textContent = '🔗 Connect & Load Paintings';
+}
+
+// ── HELPERS ──
+function escH(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── INIT ──
+window.addEventListener('load', loadConfig);
+
+// ── WARN BEFORE LEAVING WITH UNSAVED CHANGES ──
+window.addEventListener('beforeunload', e => {
+  if (hasUnsaved) {
+    e.preventDefault();
+    e.returnValue = 'Unsaved changes hain. Website pe save nahi hoge.';
+  }
+});
+</script>
+</body>
+</html>
